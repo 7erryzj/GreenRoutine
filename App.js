@@ -4,19 +4,54 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
   Dimensions
 } from 'react-native';
-import { createDrawerNavigator, createAppContainer } from 'react-navigation';
+import { createDrawerNavigator, createAppContainer, createStackNavigator } from 'react-navigation';
 
-import HomeComponent from './screens/HomeComponent';
-import InfoComponent from './screens/InfoComponent';
+import HomeScreen from './screens/HomeScreen';
+import MapScreen from './screens/MapScreen';
+import DetailScreen from './screens/DetailScreen';
 
 var {height, width} = Dimensions.get('window');
+const backgroundColor = '#0067a7';
 
-const DrawerNavigator = createDrawerNavigator(
-  {
-    Home: HomeComponent,
-    Info: InfoComponent,
+
+const mapStack = createStackNavigator({
+  Map: {
+    screen: MapScreen,
+    navigationOptions: () => ({
+      header: null
+    }),
+  },
+  Detail: {
+    screen: DetailScreen,
+  },
+});
+
+const DrawerNavigator = createDrawerNavigator({
+    Home: {
+      screen: HomeScreen,
+      navigationOptions: {
+        drawerLabel: 'Home',
+        drawerIcon: () =>  
+        <Image
+          source={require('./icons/home-icon.png')}
+          style={{ width: 26, height: 26, tintColor: backgroundColor }}
+        />
+      }
+    },
+    Map: {
+      screen: mapStack,
+      navigationOptions: {
+        drawerLabel: 'Map',
+        drawerIcon: () =>  
+        <Image
+          source={require('./icons/info-icon.png')}
+          style={{ width: 26, height: 26, tintColor: backgroundColor }}
+        />
+      }
+    },
   },
   {
     hideStatusBar: false,

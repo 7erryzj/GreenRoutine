@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
     Text, View, Image, TouchableHighlight,ImageBackground 
 } from 'react-native';
-import { Info } from '../screenNames';
 import HeaderComponent from './HeaderComponent';
 
 import { Button, ThemeProvider } from 'react-native-elements';
@@ -14,18 +13,7 @@ const theme = {
     },
   };
 
-const backgroundColor = '#0067a7';
-export default class HomeComponent extends Component {
-    static navigationOptions = ({ navigation }) => {
-        let drawerLabel = 'Home';
-        let drawerIcon = () => (
-            <Image
-                source={require('../icons/home-icon.png')}
-                style={{ width: 26, height: 26, tintColor: backgroundColor }}
-            />
-        );
-        return {drawerLabel, drawerIcon};
-    }
+export default class HomeScreen extends Component {
     render() {
         return (
     <ThemeProvider theme={theme}>
@@ -55,7 +43,7 @@ export default class HomeComponent extends Component {
                     }}
                     onPress={() => {
                         const { navigate } = this.props.navigation;
-                        navigate(Info);                                             
+                        navigate("Map");                                             
                     }}>
                     <Text style={{color: 'white', fontSize: 18}}>Navigate to Map</Text>
                 </TouchableHighlight>

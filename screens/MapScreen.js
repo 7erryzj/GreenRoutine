@@ -8,9 +8,6 @@ import Geojson from 'react-native-geojson';
 
 import MapView, { Marker, Callout } from 'react-native-maps';
 
-
-const backgroundColor = '#007256';
-
 const geoData = require('./cash-for-trash-geojson.json');
 
 var data = geoData.features.map(function(item){
@@ -20,18 +17,7 @@ var data = geoData.features.map(function(item){
 
 
 
-export default class InfoComponent extends Component {
-    static navigationOptions = ({ navigation }) => {
-        let drawerLabel = 'Info';
-        let drawerIcon = () => (
-            <Image
-                source={require('../icons/info-icon.png')}
-                style={{ width: 26, height: 26, tintColor: backgroundColor }}
-            />
-        );
-        return { drawerLabel, drawerIcon };
-    }
-
+export default class MapScreen extends Component {
     render() {
         /*
         return (<View style={{
@@ -91,10 +77,16 @@ export default class InfoComponent extends Component {
               {geoData.features.map((location)=>{
                   const [longitude, latitude] = location.geometry.coordinates;
                   const desc = location.properties.description;
+                  const name = location.properties.Name;
                   return (
                       <Marker
+                      key={name}
                       coordinate={{longitude,latitude}}
                       title="this is title placeholder"
+                      onCalloutPress={() => {
+                        const { navigate } = this.props.navigation;
+                        navigate("Detail");                                             
+                    }}
                       >
                       </Marker>
                   )
