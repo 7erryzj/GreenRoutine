@@ -19,36 +19,6 @@ var data = geoData.features.map(function(item){
 
 export default class MapScreen extends Component {
     render() {
-        /*
-        return (<View style={{
-            flex: 1,
-            flexDirection: 'column',
-        }}>
-            <HeaderComponent {...this.props} />
-            <View style={{
-                flex: 1,
-                backgroundColor: backgroundColor,
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
-                <Text style={{ fontWeight: 'bold', fontSize: 22, color: 'white' }}>
-                    This is Info Screen
-                </Text>                
-                <TouchableHighlight style={{ 
-                                            margin: 20, 
-                                            width: 200, 
-                                            height: 45,
-                                            backgroundColor: 'darkviolet',
-                                            padding: 10,
-                                            alignItems: 'center',
-                                         }}
-                    onPress={() => {
-                        this.props.navigation.goBack();                        
-                    }}>
-                    <Text style={{color: 'white', fontSize: 18}}>Back to Home</Text>
-                </TouchableHighlight>
-            </View>
-        </View>)*/
         return(
         <View style={{
                 flex: 1,
@@ -84,8 +54,12 @@ export default class MapScreen extends Component {
                       coordinate={{longitude,latitude}}
                       title="this is title placeholder"
                       onCalloutPress={() => {
-                        const { navigate } = this.props.navigation;
-                        navigate("Detail");                                             
+                        //const { navigate } = this.props.navigation;
+                        //navigate("Detail");
+                        this.props.navigation.navigate('Detail', {
+                            itemId: 8886,
+                            otherParam: 'anything you want here',
+                          });                                           
                     }}
                       >
                       </Marker>
