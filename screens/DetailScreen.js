@@ -27,11 +27,12 @@ export default class DetailScreen extends Component {
             }}>
                 <Image
                     source={require('../icons/home-icon.png')}
-                    style={{ width: 200, height: 200 }}
+                    style={{ width: 100, height: 100 }}
                 />
                 <Text style={{ fontWeight: 'bold', fontSize: 22, color: 'black' }}>
                     details etcectect
                 </Text>
+                
                 <Text>itemId: {itemId}</Text>
                 <Text>otherParam: {JSON.stringify(otherParam)}</Text>
 
