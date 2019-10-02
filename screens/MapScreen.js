@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import {Text, View, Image, TouchableHighlight,StyleSheet, ActivityIndicator} from 'react-native';
 import HeaderComponent from './HeaderComponent';
-import Geojson from 'react-native-geojson';
+//import Geojson from 'react-native-geojson';
 import MapView, { Marker, Callout } from 'react-native-maps';
+import Geolocation from '@react-native-community/geolocation';
 //import DropdownList from '../components/DropdownList';
 import { Dropdown } from 'react-native-material-dropdown';
+import Animation from 'lottie-react-native';
+import anim from '../icons/7561-planet2.json';
 
 const c4tdata = require('./cash-for-trash-geojson.json');
-
-/*
-var data = geoData.features.map(function(item){
-    const [x, y, z] = item.geometry.coordinates;
-    //console.log(y)
-});
-*/
-
-
+const INITIAL_REGION = {
+  latitude: 1.290270,
+  longitude: 103.851959,
+  latitudeDelta: 0.0922,
+  longitudeDelta: 0.0421,
+};
 
 export default class MapScreen extends Component {
   constructor(props) {
@@ -29,43 +29,69 @@ export default class MapScreen extends Component {
       }, {
         value: 'kml_3',
       }],
-      geoData : c4tdata.features
+      geoData : c4tdata.features,
+      latitude: null,
+      longitude: null,
+      error:null,
     };
   }
 
   componentWillMount(){
     console.disableYellowBox = true;
-    console.log('First this called');
-
     this.setState({
-      loading: true,
+      loading: true
     })
-
+    /*
     setTimeout(() => {
       this.setState({
         loading: false
       });
     }, 6000);
+    */
   }
 
   componentDidMount() {
-    //placeholder
+    this.animation.play();
+    this.getCurrentPosition();
   }
 
-  onChangeText = (value, index, data) => {
+  getCurrentPosition=()=>{
+    Geolocation.getCurrentPosition(
+      (position) => {
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null,
+        });
+        _mapView.animateToCoordinate(
+          {
+            latitude: this.state.latitude,
+            longitude: this.state.longitude
+          },
+          1000
+        )
+      },
+      (error) => this.setState({ error: error.message }),
+      { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
+    );
+    setTimeout(() => {
+      this.setState({
+        loading: false
+      });
+    }, 7000);
+  }
+
+  onChangeText=(value, index, data)=>{
     this.mapRendering(value);
-  };
+  }
 
-  mapRendering = (condition) =>{
-
+  mapRendering=(condition)=>{
     var arr1 = c4tdata.features.filter(d => d.properties.Name === condition);
     
     this.setState({
       geoData : arr1
     })
-    
-    
-  };
+  }
 
     render() {
         return(
@@ -75,6 +101,9 @@ export default class MapScreen extends Component {
         }}>
         <HeaderComponent {...this.props} />
             <MapView
+            ref={mapView => {
+              _mapView = mapView
+            }}
             style={{
                 height:500,
                 width:500,
@@ -83,13 +112,8 @@ export default class MapScreen extends Component {
                 right: 0,
                 bottom: 0,
             }}
-
-            initialRegion={{
-              latitude: 1.290270,
-              longitude: 103.851959,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
+            initialRegion={INITIAL_REGION}
+            showsUserLocation={true}
           >
               {this.state.geoData.map((location)=>{
                   const [longitude, latitude] = location.geometry.coordinates;
@@ -112,6 +136,16 @@ export default class MapScreen extends Component {
                       </Marker>
                   )
               })}
+
+          {!!this.state.latitude && !!this.state.longitude && 
+            <MapView.Marker
+              coordinate={{
+                "latitude":this.state.latitude,
+                "longitude":this.state.longitude
+              }}
+              title={"Your Location"}
+              pinColor={'#474744'}
+          />}
           </MapView>
 
           <Dropdown
@@ -120,10 +154,15 @@ export default class MapScreen extends Component {
             dropdownPosition={1}
             onChangeText={this.onChangeText}
           />
-
           {this.state.loading &&
-          <View style={styles.loading}>
-              <ActivityIndicator/>
+          <View style={styles.loading}>         
+          <Animation
+            ref={animation => {
+              this.animation = animation;
+            }}
+            loop={true}
+            source={anim}
+          />
           </View>}
         </View>
         );
@@ -137,7 +176,7 @@ const styles = StyleSheet.create({
       right: 0,
       top: 0,
       bottom: 0,
-      opacity: 0.5,
+      opacity: 0.8,
       backgroundColor: 'black',
       justifyContent: 'center',
       alignItems: 'center'
