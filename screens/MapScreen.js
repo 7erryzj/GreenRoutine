@@ -9,6 +9,7 @@ import { Dropdown } from 'react-native-material-dropdown';
 import Animation from 'lottie-react-native';
 import anim from '../icons/7561-planet2.json';
 
+console.disableYellowBox = true;
 const c4tdata = require('./cash-for-trash-geojson.json');
 const INITIAL_REGION = {
   latitude: 1.290270,
@@ -23,13 +24,14 @@ export default class MapScreen extends Component {
     this.state = {
       loading : false,
       ddl : [{
-        value: 'kml_1',
+        value: 'Toh',
       }, {
-        value: 'kml_2',
+        value: 'Tampines Street 32',
       }, {
-        value: 'kml_3',
+        value: 'Tampines Street 41',
       }],
-      geoData : c4tdata.features,
+      dbData : [],
+      geoData : [],
       latitude: null,
       longitude: null,
       error:null,
@@ -37,7 +39,6 @@ export default class MapScreen extends Component {
   }
 
   componentWillMount(){
-    console.disableYellowBox = true;
     this.setState({
       loading: true
     })
@@ -51,9 +52,19 @@ export default class MapScreen extends Component {
   }
 
   componentDidMount() {
+    this.fetch();
     this.animation.play();
     this.getCurrentPosition();
   }
+
+  async fetch(){ 
+    await fetch('http://192.168.0.102:3000/site')
+    .then(response => response.json())
+    .then(sites => this.setState({
+        dbData : sites,
+        geoData : sites
+    }))
+} 
 
   getCurrentPosition=()=>{
     Geolocation.getCurrentPosition(
@@ -86,8 +97,15 @@ export default class MapScreen extends Component {
   }
 
   mapRendering=(condition)=>{
-    var arr1 = c4tdata.features.filter(d => d.properties.Name === condition);
-    
+    //clunky solution
+    this.setState({
+      geoData : this.state.dbData
+    })
+
+    //var arr1 = this.state.geoData.filter(d => d.StreetName == condition);
+    var arr1 =this.state.geoData.filter(function(item){
+      return item.StreetName.includes(condition);
+    });
     this.setState({
       geoData : arr1
     })
@@ -101,29 +119,24 @@ export default class MapScreen extends Component {
         }}>
         <HeaderComponent {...this.props} />
             <MapView
-            ref={mapView => {
-              _mapView = mapView
-            }}
-            style={{
-                height:500,
-                width:500,
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-            }}
-            initialRegion={INITIAL_REGION}
-            showsUserLocation={true}
-          >
+              ref={mapView => {
+                _mapView = mapView
+              }}
+              style={styles.mapStyle}
+              initialRegion={INITIAL_REGION}
+              showsUserLocation={true}
+            >
               {this.state.geoData.map((location)=>{
-                  const [longitude, latitude] = location.geometry.coordinates;
-                  const desc = location.properties.Description;
-                  const name = location.properties.Name;
+                  const longitude = location.XCoordinate;
+                  const latitude = location.YCoordinate;
+                  const desc = location.Description;
+                  const id = location.SiteId;
                   return (
                       <Marker
-                      key={name}
+                      key={id}
                       coordinate={{longitude,latitude}}
                       title="this is title placeholder"
+                      pinColor={'green'}
                       onCalloutPress={() => {
                         //const { navigate } = this.props.navigation;
                         //navigate("Detail");
@@ -137,16 +150,17 @@ export default class MapScreen extends Component {
                   )
               })}
 
-          {!!this.state.latitude && !!this.state.longitude && 
-            <MapView.Marker
-              coordinate={{
-                "latitude":this.state.latitude,
-                "longitude":this.state.longitude
-              }}
-              title={"Your Location"}
-              pinColor={'#474744'}
-          />}
-          </MapView>
+              {!!this.state.latitude && !!this.state.longitude && 
+                <MapView.Marker
+                  coordinate={{
+                    "latitude":this.state.latitude,
+                    "longitude":this.state.longitude
+                  }}
+                  title={"Your Location"}
+                  pinColor={'red'}
+              />}
+
+            </MapView>
 
           <Dropdown
             label='Location Filter'
@@ -156,13 +170,13 @@ export default class MapScreen extends Component {
           />
           {this.state.loading &&
           <View style={styles.loading}>         
-          <Animation
-            ref={animation => {
-              this.animation = animation;
-            }}
-            loop={true}
-            source={anim}
-          />
+            <Animation
+              ref={animation => {
+                this.animation = animation;
+              }}
+              loop={true}
+              source={anim}
+            />
           </View>}
         </View>
         );
@@ -171,14 +185,22 @@ export default class MapScreen extends Component {
 
 const styles = StyleSheet.create({
   loading: {
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      opacity: 0.8,
-      backgroundColor: 'black',
-      justifyContent: 'center',
-      alignItems: 'center'
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    opacity: 0.8,
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  mapStyle:{
+    height:500,
+    width:500,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   }
 })

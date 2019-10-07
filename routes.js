@@ -20,18 +20,20 @@ const connection = mysql.createPool({
   const app = express();
 
 // Creating a GET route that returns data from the 'users' table.
-app.get('/test', function (req, res) {
+app.get('/site', function (req, res) {
     // Connecting to the database.
     connection.getConnection(function (err, connection) {
 
     // Executing the MySQL query (select all data from the 'users' table).
-    connection.query('SELECT * FROM test', function (error, results, fields) {
+    connection.query('SELECT * FROM site', function (error, results, fields) {
       if (error) throw error;
 
       res.send(results)
     });
   });
 });
+
+
 
 // Starting our server.
 app.listen(3000, () => {
