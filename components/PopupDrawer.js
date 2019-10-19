@@ -8,11 +8,13 @@ import {
     View,
     Text
 } from 'react-native';
-
+/*
+https://github.com/marcosmartinez7/react-native-bottom-up-panel
+*/
 import * as Easing from "react-native/Libraries/Animated/src/Easing";
 
 const { width } = Dimensions.get('window');
-const height = 300
+const height = 400
 
  class BottomUpPanel extends Component {
 

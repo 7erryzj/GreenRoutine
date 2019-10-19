@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import {Text, View, Image, TouchableHighlight,StyleSheet, ActivityIndicator} from 'react-native';
+import {Text, View, Image, TouchableHighlight,StyleSheet, Dimensions} from 'react-native';
 import HeaderComponent from './HeaderComponent';
 //import Geojson from 'react-native-geojson';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
-//import DropdownList from '../components/DropdownList';
 import { Dropdown } from 'react-native-material-dropdown';
 import Animation from 'lottie-react-native';
 import anim from '../icons/7561-planet2.json';
+import BottomUpPanel from '../components/PopupDrawer'
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { CheckBox } from 'react-native-elements';
 
 console.disableYellowBox = true;
+const {height} = Dimensions.get('window'); 
 const c4tdata = require('./cash-for-trash-geojson.json');
 const INITIAL_REGION = {
   latitude: 1.290270,
@@ -22,7 +25,7 @@ export default class MapScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading : false,
+      loading : false, //for animation
       ddl : [{
         value: 'Toh',
       }, {
@@ -30,11 +33,12 @@ export default class MapScreen extends Component {
       }, {
         value: 'Tampines Street 41',
       }],
-      dbData : [],
-      geoData : [],
-      latitude: null,
-      longitude: null,
-      error:null,
+      dbData : [], //for filter
+      geoData : [], //for filter
+      latitude: null, //for user location
+      longitude: null, //for user location
+      error:null, //for user location
+      checked: false, //for checkbox
     };
   }
 
@@ -64,7 +68,7 @@ export default class MapScreen extends Component {
         dbData : sites,
         geoData : sites
     }))
-} 
+  }
 
   getCurrentPosition=()=>{
     Geolocation.getCurrentPosition(
@@ -109,6 +113,40 @@ export default class MapScreen extends Component {
     this.setState({
       geoData : arr1
     })
+  }
+
+  renderBottomUpPanelContent=()=>{
+    return(
+        <View style={{backgroundColor:'white', flex:1}}>
+
+            <View style={{padding:20}}>
+                <Dropdown
+                    label='Filter by Location'
+                    data={this.state.ddl}
+                    dropdownPosition={1}
+                    onChangeText={this.onChangeText}
+                />
+                <CheckBox
+                    center
+                    title='Click Here'
+                    checked={this.state.checked}
+                    onPress={() => this.setState({checked: !this.state.checked})}
+                />
+                <CheckBox
+                    center
+                    title='Click Here'
+                    checked={this.state.checked}
+                    onPress={() => this.setState({checked: !this.state.checked})}
+                />
+            </View>
+            
+      </View>
+    );
+  }
+  renderBottomUpPanelIcon=()=>{
+    return(
+    <Ionicons name="md-arrow-dropup" style={{color:"white"}} size={30}/>
+    );
   }
 
     render() {
@@ -161,13 +199,20 @@ export default class MapScreen extends Component {
               />}
 
             </MapView>
-
-          <Dropdown
-            label='Location Filter'
-            data={this.state.ddl}
-            dropdownPosition={1}
-            onChangeText={this.onChangeText}
-          />
+            <BottomUpPanel
+              content={this.renderBottomUpPanelContent}
+              icon={this.renderBottomUpPanelIcon}
+              topEnd={height-height*0.8}
+              startHeight={80}
+              headerText={"Filters!"}
+              headerTextStyle={{color:"white", 
+                                fontSize: 15}}
+              bottomUpSlideBtn={{display: 'flex',
+                                alignSelf: 'flex-start',
+                                backgroundColor: 'black',
+                                alignItems: 'center',
+                                borderTopWidth: 5}}>
+              </BottomUpPanel>
           {this.state.loading &&
           <View style={styles.loading}>         
             <Animation

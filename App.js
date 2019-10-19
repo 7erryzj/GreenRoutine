@@ -8,10 +8,12 @@ import {
   Dimensions
 } from 'react-native';
 import { createDrawerNavigator, createAppContainer, createStackNavigator } from 'react-navigation';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import HomeScreen from './screens/HomeScreen';
 import MapScreen from './screens/MapScreen';
 import DetailScreen from './screens/DetailScreen';
+import MailScreen from './screens/MailScreen';
 
 var {height, width} = Dimensions.get('window');
 const backgroundColor = '#0067a7';
@@ -35,10 +37,7 @@ const DrawerNavigator = createDrawerNavigator({
       navigationOptions: {
         drawerLabel: 'Home',
         drawerIcon: () =>  
-        <Image
-          source={require('./icons/home-icon.png')}
-          style={{ width: 26, height: 26, tintColor: backgroundColor }}
-        />
+        <Ionicons name="md-home"  size={26}/>
       }
     },
     Map: {
@@ -46,12 +45,17 @@ const DrawerNavigator = createDrawerNavigator({
       navigationOptions: {
         drawerLabel: 'Map',
         drawerIcon: () =>  
-        <Image
-          source={require('./icons/info-icon.png')}
-          style={{ width: 26, height: 26, tintColor: backgroundColor }}
-        />
+        <Ionicons name="md-locate"  size={26}/>
       }
     },
+    Mail: {
+      screen: MailScreen,
+      navigationOptions: {
+        drawerLabel: 'Inbox',
+        drawerIcon: () =>  
+        <Ionicons name="md-mail" size={26}/>
+      }
+    }
   },
   {
     hideStatusBar: false,
