@@ -6,13 +6,15 @@ import MapView, { Marker, Callout } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import { Dropdown } from 'react-native-material-dropdown';
 import Animation from 'lottie-react-native';
-import anim from '../icons/7561-planet2.json';
+import anim from '../icons/2523-loading.json';
 import BottomUpPanel from '../components/PopupDrawer'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { CheckBox } from 'react-native-elements';
+import Constants from '../Constants'
+import Map from '../models/Map'
 
 console.disableYellowBox = true;
-const {height} = Dimensions.get('window'); 
+const {height, width} = Dimensions.get('window');
 const c4tdata = require('./cash-for-trash-geojson.json');
 const INITIAL_REGION = {
   latitude: 1.290270,
@@ -32,7 +34,12 @@ export default class MapScreen extends Component {
         value: 'Tampines Street 32',
       }, {
         value: 'Tampines Street 41',
-      }],
+      },{
+        value: '123',
+      },{
+        value: '456',
+      }
+    ],
       dbData : [], //for filter
       geoData : [], //for filter
       latitude: null, //for user location
@@ -46,13 +53,6 @@ export default class MapScreen extends Component {
     this.setState({
       loading: true
     })
-    /*
-    setTimeout(() => {
-      this.setState({
-        loading: false
-      });
-    }, 6000);
-    */
   }
 
   componentDidMount() {
@@ -62,7 +62,7 @@ export default class MapScreen extends Component {
   }
 
   async fetch(){ 
-    await fetch('http://192.168.0.102:3000/site')
+    await fetch(Constants.IP_ADDRESS+'/site')
     .then(response => response.json())
     .then(sites => this.setState({
         dbData : sites,
@@ -168,19 +168,21 @@ export default class MapScreen extends Component {
                   const longitude = location.XCoordinate;
                   const latitude = location.YCoordinate;
                   const desc = location.Description;
-                  const id = location.SiteId;
+                  const streetName = location.StreetName;
+                  const sid = location.SiteId;
                   return (
                       <Marker
-                      key={id}
+                      key={sid}
                       coordinate={{longitude,latitude}}
-                      title="this is title placeholder"
-                      pinColor={'green'}
+                      title={streetName}
+                      pinColor={Constants.darkgreen}
                       onCalloutPress={() => {
                         //const { navigate } = this.props.navigation;
                         //navigate("Detail");
                         this.props.navigation.navigate('Detail', {
-                            itemId: 8886,
-                            otherParam: desc,
+                            SITE_ID: sid,
+                            STREET_NAME: streetName,
+                            DESC: desc,
                           });                                           
                     }}
                       >
@@ -241,8 +243,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   mapStyle:{
-    height:500,
-    width:500,
+    height:height,
+    width:width,
     top: 0,
     left: 0,
     right: 0,

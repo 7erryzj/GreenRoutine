@@ -14,6 +14,10 @@ import HomeScreen from './screens/HomeScreen';
 import MapScreen from './screens/MapScreen';
 import DetailScreen from './screens/DetailScreen';
 import MailScreen from './screens/MailScreen';
+import LoginScreen from './screens/LoginScreen';
+import SendMessageScreen from './screens/SendMessageScreen';
+import RegisterScreen from './screens/RegisterScreen'
+
 
 var {height, width} = Dimensions.get('window');
 const backgroundColor = '#0067a7';
@@ -29,6 +33,9 @@ const mapStack = createStackNavigator({
   Detail: {
     screen: DetailScreen,
   },
+  Message:{
+    screen: SendMessageScreen
+  }
 });
 
 const DrawerNavigator = createDrawerNavigator({
@@ -67,4 +74,18 @@ const DrawerNavigator = createDrawerNavigator({
   }
 );
 
-export default createAppContainer(DrawerNavigator);
+const stackNavigationLogin = createStackNavigator({
+  Login: {
+      screen: LoginScreen,
+    },
+  Register:{
+    screen : RegisterScreen
+  },
+    DrawerNavigator
+},
+  { 
+    headerMode: 'none'
+  }
+)
+
+export default createAppContainer(stackNavigationLogin);

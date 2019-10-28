@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Text, View, Image, TouchableHighlight,SafeAreaView, ScrollView} from 'react-native';
 
+import LocationInfo from '../components/locationInfo';
 import { Button, ThemeProvider } from 'react-native-elements';
 
 const theme = {
@@ -13,33 +14,25 @@ const backgroundColor = '#0067a7';
 export default class DetailScreen extends Component {
     render() {
         const { navigation } = this.props;
-        const itemId = navigation.getParam('itemId');
-        const otherParam = navigation.getParam('otherParam');
-        return (
-    
-        <ThemeProvider theme={theme}>
-            <SafeAreaView>
-                <ScrollView>
-                    <View style={{
-                        flex: 1,
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}>
-                        <Image
-                            source={require('../icons/home-icon.png')}
-                            style={{ width: 100, height: 100 }}
-                        />
-                        <Text style={{ fontWeight: 'bold', fontSize: 22, color: 'black' }}>
-                            details etcectect
-                        </Text>
-                            
-                        <Text>itemId: {itemId}</Text>
-                        <Text>otherParam: {JSON.stringify(otherParam)}</Text>
-                        <Text>otherParam: {JSON.stringify(otherParam)}</Text>
+        const sid = navigation.getParam('SITE_ID');
+        const streetName = navigation.getParam('STREET_NAME');
+        const desc = navigation.getParam('DESC');
 
-                    </View>
-                </ScrollView> 
-            </SafeAreaView>
-        </ThemeProvider>);
+        return (
+            <LocationInfo
+                header={"Company Name"}
+                description={""}
+                picture={"https://picsum.photos/700"}
+                locationName={streetName}
+                firstPara={desc}
+                secondPara={"second para"}
+                thirdPara={"third para"}
+                backfunc={()=>this.props.navigation.navigate('Message', {
+                    SITE_ID: sid,
+                  })}
+                estimatefunc={()=>alert('asd')}
+                >
+            </LocationInfo>
+        );
     }
 }
