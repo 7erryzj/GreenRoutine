@@ -3,7 +3,7 @@ import { TextInput, Provider as PaperProvider } from "react-native-paper";
 import { StyleSheet, View, TouchableWithoutFeedback } from "react-native";
 import Styles from "../Styles";
 import Themes from "../Themes";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 import Constants from "../Constants";
 import { Keyboard } from "react-native";
 
@@ -31,30 +31,30 @@ export default class inputBox extends React.Component {
     );
   }
 }
-inputBox.PropTypes = {
+inputBox.propTypes = {
   //to enable multiline. Generally not used unless long input
-  multiline: PropTypes.bool,
+  multiline: propTypes.bool,
   //true to turn on, false to turn off. Good to turn off for username field
-  autoCorrect: PropTypes.bool,
+  autoCorrect: propTypes.bool,
   //changes input to ***
-  secureTextEntry: PropTypes.bool,
+  secureTextEntry: propTypes.bool,
   //The grayed out text in the box that disappears once user types
-  placeholder: PropTypes.string,
+  placeholder: propTypes.string,
   //Choose between "flat" and "outlined"
   //"flat" is a more simplistic look
-  mode: PropTypes.string,
+  mode: propTypes.string,
   //the "header" for the text box
-  label: PropTypes.string,
+  label: propTypes.string,
   //the value can be returned
-  value: PropTypes.string,
+  value: propTypes.string,
   //give a maximum length of input
-  maxLength: PropTypes.number,
+  maxLength: propTypes.number,
   //specify the height of box
-  height: PropTypes.number,
+  height: propTypes.number,
   //specify width of box
-  width: PropTypes.number,
+  width: propTypes.number,
   //specifies whether to auto capitalize start of sentence
-  autoCapitalize: PropTypes.bool,
+  autoCapitalize: propTypes.bool,
   //does the method
-  method: PropTypes.func
+  method: propTypes.func
 };

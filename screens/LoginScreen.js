@@ -7,6 +7,7 @@ import {
     Text,
     TouchableOpacity,
     View,
+    ImageBackground,
     KeyboardAvoidingView
 } from 'react-native';
 import { TextInput, Provider as PaperProvider } from "react-native-paper";
@@ -15,18 +16,12 @@ import Constants from '../Constants';
 import CustomButton from "../components/customButton";
 import Font from "../Constants";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Message from '../models/Message'
-import Map from '../models/Map'
+import Message from '../models/Message';
+import Map from '../models/Map';
+import Animation from 'lottie-react-native';
+import anim from '../icons/data.json';
 
-
-import { ThemeProvider } from 'react-native-elements';
 console.disableYellowBox = true;
-
-const theme = {
-    Button: {
-      raised: true,
-    },
-  };
 
 
 export default class LoginScreen extends Component {
@@ -37,14 +32,12 @@ export default class LoginScreen extends Component {
         };
     }
      componentDidMount() {
-
+      this.animation.play();
     }
     login =() =>{
-      //this.test();
         this.props.navigation.navigate('DrawerNavigator');  
     }
     register =() =>{
-      //this.test();
         this.props.navigation.navigate('Register');  
     }
 
@@ -74,23 +67,32 @@ export default class LoginScreen extends Component {
       });
 */
         return (
-        <KeyboardAvoidingView behavior="padding" style={styles.container}>
+          <ImageBackground 
+          source={require('../icons/bg.jpg')} style={styles.container}>
           <View style={styles.loginContainer}>
-            <Image resizeMode="contain" style={styles.logo} source={require('../icons/qwrety.png')} />
+            <Animation
+                    ref={animation => {
+                    this.animation = animation;
+                    }}
+                    loop={false}
+                    source={anim}
+                    style={styles.logo}
+                />
           </View>
           <View style={styles.inner}>
           <TextInput
                 theme={Themes.InputBoxTheme}
-                style={{width:200, height:50}}
+                style={{width:350, height:50}}
                 label='Username'
                 value={this.state.text}
                 onChangeText={text => this.setState({ text })}
               />
               <TextInput
                 theme={Themes.InputBoxTheme}
-                style={{width:200, height:50}}
+                style={{width:350, height:50}}
                 label='Password'
                 value={this.state.text}
+                secureTextEntry={true}
                 onChangeText={text => this.setState({ text })}
               />
           </View>
@@ -112,7 +114,7 @@ export default class LoginScreen extends Component {
                 width={150}
             />
           </View>
-        </KeyboardAvoidingView>
+        </ImageBackground>
         );
     }
 }
@@ -136,19 +138,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Constants.lightgreen,
 },
-container2:{
-  flexWrap: 'wrap', 
-  alignItems: 'flex-start',
-  flexDirection:'row',
-},
 loginContainer:{
     alignItems: 'center',
     flexGrow: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    borderColor:'black'
 },
 logo: {
     position: 'absolute',
-    width: 300,
-    height: 100
 }
   });

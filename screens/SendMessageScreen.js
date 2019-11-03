@@ -67,8 +67,11 @@ export default class SendMessageScreen extends Component {
       }
     render() {
         return (
-        <KeyboardAvoidingView behavior="padding" style={styles.container}>
-            <View style={{alignContent: "center"}}>
+        <View style={{ alignItems: "center", paddingTop: 125}}>
+            <Text>
+                Send Question
+            </Text>
+            <View style={{ paddingVertical: 10 }}>
                 <TextInput
                     theme={Themes.InputBoxTheme}
                     style={{width:300, height:50, padding:10}}
@@ -76,7 +79,8 @@ export default class SendMessageScreen extends Component {
                     value={this.state.title}
                     onChangeText={text => this.setState({ title:text })}
                 />
-
+            </View>
+            <View style={{ paddingVertical: 10 }}>
                 <TextInput
                     theme={Themes.InputBoxTheme}
                     style={{width:300, height:200, padding:10}}
@@ -85,7 +89,8 @@ export default class SendMessageScreen extends Component {
                     value={this.state.content}
                     onChangeText={text => this.setState({ content:text })}
                 />
-
+            </View>
+            <View>
                 <CustomButton
                     icon="send"
                     mode="contained"
@@ -94,7 +99,7 @@ export default class SendMessageScreen extends Component {
                     method={()=>this.validate()}
                 />
             </View>
-        </KeyboardAvoidingView>
+        </View>
         );
     }
 }
@@ -102,7 +107,7 @@ const styles = StyleSheet.create({
  container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: Constants.darkgreen,
+    backgroundColor: 'red',
     alignContent: "center"
   }
   });

@@ -36,9 +36,9 @@ class cusBottomDrawer extends Component {
   } 
 }
 cusBottomDrawer.propTypes = {
-    label: PropTypes.string.isRequired,
-    data: PropTypes.array.isRequired,
-    onChangeText: PropTypes.func.isRequired
+    label: propTypes.string.isRequired,
+    data: propTypes.array.isRequired,
+    onChangeText: propTypes.func.isRequired
   };
 
 

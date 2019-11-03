@@ -22,34 +22,67 @@ const INITIAL_REGION = {
   latitudeDelta: 0.0922,
   longitudeDelta: 0.0421,
 };
-
+var k = 0;
 export default class MapScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading : false, //for animation
       ddl : [{
-        value: 'Toh',
-      }, {
-        value: 'Tampines Street 32',
-      }, {
-        value: 'Tampines Street 41',
+        value: 'Show All',
       },{
-        value: '123',
+        value: 'Bedok',
+      }, {
+        value: 'Bishan',
+      }, {
+        value: 'Boon Keng',
       },{
-        value: '456',
+        value: 'Bukit Batok',
+      },{
+        value: 'Bukit Purmei',
+      },{
+        value: 'Cantonment',
+      },{
+        value: 'Choa Chu Kang',
+      },{
+        value: 'Circuit Road',
+      },{
+        value: 'Clarence Lane',
+      },{
+        value: 'Crawford Lane',
+      },{
+        value: 'Dawson Road',
+      },{
+        value: 'Eunos Crescent',
+      },{
+        value: 'Everton Park',
+      },{
+        value: 'Hougang',
+      },{
+        value: 'Jurong East',
+      },{
+        value: 'Jurong West',
+      },{
+        value: 'Jalan',
+      },{
+        value: 'Tampines',
+      },{
+        value: 'Woodlands',
       }
     ],
       dbData : [], //for filter
       geoData : [], //for filter
+      recData : [],
       latitude: null, //for user location
       longitude: null, //for user location
       error:null, //for user location
-      checked: false, //for checkbox
+      aluminium: false,
+      paper:false,
+      plastic:false
     };
   }
 
-  componentWillMount(){
+  UNSAFE_componentWillMount(){
     this.setState({
       loading: true
     })
@@ -101,19 +134,102 @@ export default class MapScreen extends Component {
   }
 
   mapRendering=(condition)=>{
-    //clunky solution
     this.setState({
       geoData : this.state.dbData
     })
 
-    //var arr1 = this.state.geoData.filter(d => d.StreetName == condition);
-    var arr1 =this.state.geoData.filter(function(item){
-      return item.StreetName.includes(condition);
-    });
+    if(condition!='Show All'){
+      //var arr1 = this.state.geoData.filter(d => d.StreetName == condition);
+        var arr1 =this.state.geoData.filter(function(item){
+          return item.StreetName.includes(condition);
+        });
+
+        this.setState({
+          geoData : arr1
+        })
+    }
+
     this.setState({
-      geoData : arr1
+      recData : this.state.geoData
     })
+
   }
+
+  toggleAluminium = () =>{
+
+    this.setState((prevState) => {
+      return {
+          aluminium: !prevState.aluminium
+      };
+    }, () => {
+      if(this.state.aluminium == true){
+        var arr1 =this.state.geoData.filter(function(item){
+          return item.Name.includes('Aluminium');
+        });
+        this.setState({
+          geoData : arr1
+        })
+      }
+      else{
+        this.setState({
+          geoData : this.state.recData
+        })
+      }
+  });
+    
+    
+  }
+
+  togglePaper = () =>{
+
+    this.setState((prevState) => {
+      return {
+          paper: !prevState.paper
+      };
+    }, () => {
+      if(this.state.paper == true){
+        var arr1 =this.state.geoData.filter(function(item){
+          return item.Name.includes('Paper');
+        });
+        this.setState({
+          geoData : arr1
+        })
+      }
+      else{
+        this.setState({
+          geoData : this.state.recData
+        })
+      }
+  });
+    
+    
+  }
+  togglePlastic = () =>{
+
+    this.setState((prevState) => {
+      return {
+          plastic: !prevState.plastic
+      };
+    }, () => {
+      if(this.state.plastic == true){
+        var arr1 =this.state.geoData.filter(function(item){
+          return item.Name.includes('Plastic');
+        });
+        this.setState({
+          geoData : arr1
+        })
+      }
+      else{
+        this.setState({
+          geoData : this.state.recData
+        })
+      }
+  });
+    
+    
+  }
+
+  
 
   renderBottomUpPanelContent=()=>{
     return(
@@ -128,15 +244,21 @@ export default class MapScreen extends Component {
                 />
                 <CheckBox
                     center
-                    title='Click Here'
-                    checked={this.state.checked}
-                    onPress={() => this.setState({checked: !this.state.checked})}
+                    title='Aluminium'
+                    checked={this.state.aluminium}
+                    onPress={() => this.toggleAluminium()}
                 />
                 <CheckBox
                     center
-                    title='Click Here'
-                    checked={this.state.checked}
-                    onPress={() => this.setState({checked: !this.state.checked})}
+                    title='Paper'
+                    checked={this.state.paper}
+                    onPress={() => this.togglePaper()}
+                />
+                <CheckBox
+                    center
+                    title='Plastic'
+                    checked={this.state.plastic}
+                    onPress={() => this.togglePlastic()}
                 />
             </View>
             
@@ -170,19 +292,19 @@ export default class MapScreen extends Component {
                   const desc = location.Description;
                   const streetName = location.StreetName;
                   const sid = location.SiteId;
+                  
                   return (
                       <Marker
-                      key={sid}
+                      key={k++}
                       coordinate={{longitude,latitude}}
                       title={streetName}
                       pinColor={Constants.darkgreen}
                       onCalloutPress={() => {
-                        //const { navigate } = this.props.navigation;
-                        //navigate("Detail");
                         this.props.navigation.navigate('Detail', {
                             SITE_ID: sid,
                             STREET_NAME: streetName,
                             DESC: desc,
+                            //re : re
                           });                                           
                     }}
                       >
@@ -207,13 +329,13 @@ export default class MapScreen extends Component {
               topEnd={height-height*0.8}
               startHeight={80}
               headerText={"Filters!"}
-              headerTextStyle={{color:"white", 
-                                fontSize: 15}}
+              headerTextStyle={{color:"black", 
+                                fontSize: 20}}
               bottomUpSlideBtn={{display: 'flex',
                                 alignSelf: 'flex-start',
-                                backgroundColor: 'black',
+                                backgroundColor: Constants.darkgreen,
                                 alignItems: 'center',
-                                borderTopWidth: 5}}>
+                                borderTopWidth: 0}}>
               </BottomUpPanel>
           {this.state.loading &&
           <View style={styles.loading}>         

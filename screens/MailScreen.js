@@ -65,9 +65,6 @@ export default class MailScreen extends Component {
     
     render() {
 
-        //let asd = Message.getUserInbox(1);
-        //console.log(asd);
-        //console.log(Message.getUserInbox(1));
         return (
         <ScrollView style={styles.container}>
             <HeaderComponent {...this.props} />
@@ -78,12 +75,16 @@ export default class MailScreen extends Component {
                 const content = message.content;
                 const reply = message.reply;
                 const sid = message.sid;
+                const street_name = message.StreetName;
                 return(
-                    <Panel title={title}>
+                    <Panel key={id} title={title}>
+                        <Text>To: {street_name} Recycling Centre</Text>
                         <Text style={{paddingBottom: 10}}>{content}</Text>
                         <View style={styles.lineBreak}></View>
-                        <Text style={{paddingTop: 10,fontWeight: 'bold', color: Constants.beige}}>
-                            Reply : {reply}
+
+                        
+                        <Text style={{paddingTop: 10,fontWeight: 'bold'}}>
+                            Reply : {}
                         </Text>
                         
                     </Panel>

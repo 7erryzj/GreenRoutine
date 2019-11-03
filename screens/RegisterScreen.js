@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import {
-    Text, View, StyleSheet, TextInput, TouchableOpacity, Keyboard,
+    Text, View, StyleSheet, TouchableOpacity, Keyboard, ImageBackground
 } from 'react-native';
+import { TextInput, Provider as PaperProvider } from "react-native-paper";
 import Constants from '../Constants';
-//import Form from '../components/Form'
+import CustomButton from "../components/customButton";
+import Font from "../Constants";
 
 
 export default class RegisterScreen extends Component {
@@ -18,6 +20,7 @@ export default class RegisterScreen extends Component {
     
     signup=()=>{
         this.sendDB();
+        //TOAST
         this.props.navigation.navigate('Login'); 
     }
 
@@ -46,63 +49,78 @@ export default class RegisterScreen extends Component {
 
     render() {
         return(
-            <View style={styles.container}>
-                <Text>Signup</Text>
-                <TextInput style={styles.inputBox}
-                placeholder="Username"
-                placeholderTextColor="#989898"
+            <ImageBackground 
+          source={require('../icons/bg.jpg')} style={styles.container}>
+          <View style={styles.loginContainer}>
+              <Text style={{fontSize:34}}> Sign up</Text>
+          </View>
+          <View style={styles.inner}>
+          <TextInput
+                theme={Themes.InputBoxTheme}
+                style={{width:350, height:50}}
+                label='Username'
+                value={this.state.text}
                 onChangeText={text => this.setState({ UserName:text })}
-                />
-
-                <TextInput style={styles.inputBox}
-                placeholder="Password"
-                placeholderTextColor="#989898"
+              />
+              <TextInput
+                theme={Themes.InputBoxTheme}
+                style={{width:350, height:50}}
+                label='Password'
+                value={this.state.text}
                 secureTextEntry={true}
                 onChangeText={text => this.setState({ UserPassword:text })}
-                />
-
-                <TouchableOpacity style={styles.button} onPress={this.signup}>
-                    <Text style={styles.buttonText}>Signup</Text>
-                </TouchableOpacity>  
-
-            </View>
+              />
+          </View>
+          <View style={styles.outer}>
+            <CustomButton
+                icon="send"
+                mode="contained"
+                text="Back"
+                fontSize={Font.FONT_SIZE_SMALL}
+                method={()=>this.props.navigation.navigate('Login')}
+                width={150}
+            />
+            <CustomButton
+                icon="send"
+                mode="contained"
+                text="Submit"
+                fontSize={Font.FONT_SIZE_SMALL}
+                method={()=>this.signup()}
+                width={150}
+            />
+          </View>
+        </ImageBackground>
         );
     }
 
 }
-const styles = StyleSheet.create({
-    container : {
+
+  const styles = StyleSheet.create({
+    outer: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignContent: "center",
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        paddingLeft: 15
     },
-    inputBox : {
-        height: 40, 
-        width:300, 
-        borderColor: 'black', 
-        borderWidth: 1, 
-        borderRadius:25,
-        backgroundColor:'rgba(255,255,255,0.3)',
-        marginVertical: 3,
+    inner:{
+      flex: 0.5,
+      alignContent: "center",
+      justifyContent: "space-evenly",
+      alignItems:"center"
     },
-  
-    button : {
-        width:150, 
-        borderColor: 'black', 
-        borderWidth: 1, 
-        borderRadius:25,
-        backgroundColor:'rgba(255,255,255,0.3)',
-        marginVertical: 5,
-        paddingVertical: 10,
-        backgroundColor:'#123456',
-    },
-  
-    buttonText : {
-        fontWeight:'500',
-        textAlign:'center',
-        justifyContent: 'center',
-        color:'#FFFFFF'
-    },
-  });
-
-
+    //test
+    container: {
+      flex: 1,
+      backgroundColor: Constants.lightgreen,
+  },
+  loginContainer:{
+      alignItems: 'center',
+      flexGrow: 1,
+      justifyContent: 'center',
+      borderColor:'black'
+  },
+  logo: {
+      position: 'absolute',
+  }
+    });

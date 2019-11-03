@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
 import{StyleSheet, Text, View, Image, TouchableHighlight, Animated} from 'react-native';
+import Constants from '../Constants';
 
 class CustomPanel extends Component{
     constructor(props){
@@ -85,7 +86,10 @@ var styles = StyleSheet.create({
     container   : {
         backgroundColor: '#fff',
         margin:1,
-        overflow:'hidden'
+        overflow:'hidden',
+        borderWidth:1,
+        borderColor: Constants.lightgreen
+
     },
     titleContainer : {
         flexDirection: 'row',
@@ -95,7 +99,8 @@ var styles = StyleSheet.create({
         flex    : 1,
         padding : 10,
         color   :'#2a2f43',
-        fontWeight:'bold'
+        fontWeight:'bold',
+        fontSize: 20
     },
     button      : {
 

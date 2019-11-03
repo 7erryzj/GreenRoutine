@@ -28,7 +28,7 @@ const connection = mysql.createPool({
       connection.getConnection(function (err, connection) {
 
       // Executing the MySQL query (select all data from the 'site' table).
-      connection.query('SELECT * FROM site', function (error, results, fields) {
+      connection.query('SELECT site.*, recyclables.* FROM site INNER JOIN recyclables ON site.SiteId = recyclables.SiteId', function (error, results, fields) {
         if (error) throw error;
 
         res.send(results)
@@ -36,12 +36,13 @@ const connection = mysql.createPool({
     });
   });
 
-  app.get('/recyclable', function (req, res) {
-    // Connecting to the database.
+  //Get rates
+  app.get('/recyclables/:sid', function (req, res) {
+    const sid = req.params.sid
     connection.getConnection(function (err, connection) {
 
     // Executing the MySQL query (select all data from the 'site' table).
-    connection.query('SELECT * FROM recyclable', function (error, results, fields) {
+    connection.query('SELECT * FROM recyclables WHERE SiteId = ? ',sid, function (error, results, fields) {
       if (error) throw error;
 
       res.send(results)
@@ -54,7 +55,7 @@ app.get('/message/:uid', function (req, res) {
 
   const uid = req.params.uid
   connection.getConnection(function (err, connection) {
-  connection.query('SELECT * FROM message WHERE uid = ?',uid, function (error, results, fields) {
+  connection.query('SELECT message.uid, message.sid, message.title, message.content, message.reply, site.StreetName FROM message INNER JOIN site ON message.sid = site.SiteId WHERE uid = ?',uid, function (error, results, fields) {
     if (error) throw error;
 
     res.send(results)
@@ -112,9 +113,8 @@ app.post('/newUser', function(req, res, next){
   })
 });
 
+//Send Message
 app.post('/newMessage', function(req, res, next){
-  // Creating our connection.
-
   var data = {
     title : req.body.title,
     content: req.body.content,

@@ -1,16 +1,17 @@
 import * as React from "react";
 import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { View, ScrollView } from "react-native";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 import Styles from "../Styles";
 import Themes from "../Themes";
 
 const LocationInfo = props => (
     <Card style={Styles.cardLayout} theme={Themes.CardTheme}>
       <Card.Title title={props.header} subtitle={props.description} />
-      <Card.Cover source={{ uri: props.picture }} />
+      <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
       <Card.Content>
-        <Title>{props.locationName}</Title>
+        <Title> <Ionicons name="md-home"  size={26}/> {props.locationName}</Title>
         <Paragraph>{props.firstPara}</Paragraph>
         <Paragraph></Paragraph>
         <Paragraph>{props.secondPara}</Paragraph>
@@ -18,7 +19,7 @@ const LocationInfo = props => (
         <Paragraph>{props.thirdPara}</Paragraph>
       </Card.Content>
       <View style={Styles.cardButton}>
-        <Card.Actions>
+        <Card.Actions style={{padding:10}}>
           <Button mode={"contained"} onPress={() => props.backfunc()}>Send Message</Button>
           <Button mode={"contained"} onPress={() => props.estimatefunc()}>Get An Estimate</Button>
         </Card.Actions>
@@ -26,25 +27,25 @@ const LocationInfo = props => (
     </Card>
 );
 
-LocationInfo.PropTypes = {
+LocationInfo.propTypes = {
   //Company Name
-  header: PropTypes.string,
+  header: propTypes.string,
   //Description of Company (TBD)
-  description: PropTypes.string,
+  description: propTypes.string,
   //Perhaps some relevant photo
-  picture: PropTypes.uri,
+  picture: propTypes.uri,
   //Name of location
-  locationName: PropTypes.string,
+  locationName: propTypes.string,
   //Opening Hours
-  firstPara: PropTypes.string,
+  firstPara: propTypes.string,
   //Accepted Recyclables
-  secondPara: PropTypes.string,
+  secondPara: propTypes.string,
   //Comments etc
-  thirdPara: PropTypes.string,
+  thirdPara: propTypes.string,
   //to go back to map
-  backfunc: PropTypes.func,
+  backfunc: propTypes.func,
   //to redirect to estimate page
-  estimatefunc: PropTypes.func
+  estimatefunc: propTypes.func
 };
 
 export default LocationInfo;
