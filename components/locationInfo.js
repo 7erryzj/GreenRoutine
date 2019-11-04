@@ -11,8 +11,9 @@ const LocationInfo = props => (
       <Card.Title title={props.header} subtitle={props.description} />
       <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
       <Card.Content>
-        <Title> <Ionicons name="md-home"  size={26}/> {props.locationName}</Title>
-        <Paragraph>{props.firstPara}</Paragraph>
+        <Paragraph></Paragraph>
+        <Title> <Ionicons name="md-pin"  size={24}/> {props.locationName}</Title>
+        <Paragraph style={{borderWidth:1, padding:1}}>{props.firstPara}</Paragraph>
         <Paragraph></Paragraph>
         <Paragraph>{props.secondPara}</Paragraph>
         <Paragraph></Paragraph>

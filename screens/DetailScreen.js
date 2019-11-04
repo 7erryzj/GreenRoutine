@@ -62,78 +62,205 @@ export default class DetailScreen extends Component {
         return (
           <PaperProvider theme={Themes.CardTheme}>
             <Modal isVisible={this.state.isModalVisible} onBackdropPress={() => this.setState({ isVisible: false })}>
-              <View style={{ height:300,flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor:'white' }}>
-                <Text>Calculator</Text>
-                <View style={{ flex: 1,alignItems:'center'}}>
-                <View style={{flexDirection:'row', alignItems:'center',padding:10}}>
-                        <Text>Name</Text>
-                        <Text>Rates</Text>
-                        <Text>Amount (kg)</Text>
-                        <Text>Returns</Text>
-                </View>
-                {this.state.data.map((item)=>{
-
-                  if(item.Name == 'Paper'){
-                    return(
-                      <View style={{flexDirection:'row', alignItems:'center', alignContent:'stretch',padding:10}} key={k++}>
-                        <Text key={k++}>{item.Name}</Text>
-                        <Text key={k++}>{item.Rate}</Text>
-                        <TextInput
-                          style={{ width:50, height: 40, borderColor: 'gray', borderWidth: 1 }}
-                          onChangeText={text => this.setState({
-                            paper : text,
-                            totalPaper: (text*item.Rate).toFixed(2)
-                          })}
-                          value={this.state.paper}
-                          keyboardType={'number-pad'}
-                        />
-                        <Text key={k++}>{this.state.totalPaper} </Text>
-                      </View>
-                    )
-                  }
-                  
-                  if(item.Name == 'Plastic'){
-                    return(
-                      <View style={{flexDirection:'row', alignItems:'center',padding:10}} key={k++}>
-                        <Text key={k++}>{item.Name}</Text>
-                        <Text key={k++}>{item.Rate}</Text>
-                        <TextInput
-                          style={{ width:50, height: 40, borderColor: 'gray', borderWidth: 1 }}
-                          onChangeText={text => this.setState({
-                            plastic : text,
-                            totalPlastic: (text*item.Rate).toFixed(2)
-                          })}
-                          value={this.state.plastic}
-                          keyboardType={'number-pad'}
-                        />
-                        <Text key={k++}>{this.state.totalPlastic} </Text>
-                      </View>
-                    )
-                  }
-
-                  if(item.Name == 'Aluminium'){
-                    return(
-                      <View style={{flexDirection:'row', alignItems:'center', alignContent:'stretch',padding:10}} key={k++}>
-                        <Text key={k++}>{item.Name}</Text>
-                        <Text key={k++}>{item.Rate}</Text>
-                        <TextInput
-                          style={{ width:50, height: 40, borderColor: 'gray', borderWidth: 1 }}
-                          onChangeText={text => this.setState({
-                            alum : text,
-                            totalAlum: (text*item.Rate).toFixed(2)
-                          })}
-                          value={this.state.alum}
-                          keyboardType={'number-pad'}
-                        />
-                        <Text key={k++}>{this.state.totalAlum} </Text>
-                      </View>
-                    )
-                  }
-
-                  })}
-                </View>
+              <View style={{ height:500,flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor:'white' }}>
                 
-                <Button title="Close" onPress={this.toggleModal} />
+
+
+
+                <View style={{ paddingVertical: 20 }}>
+                  <Text style={{ fontSize: Constants.FONT_SIZE_MEDIUM }}>
+                    Calculator
+                  </Text>
+                </View>
+
+
+                <View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-evenly",
+                      paddingHorizontal: 20,
+                      paddingVertical: 20
+                    }}
+                  >
+                    <View style={{ paddingHorizontal: 50 }}>
+                      <Text style={{ fontSize: Constants.FONT_SIZE_SMALL }}>
+                        Name
+                      </Text>
+                    </View>
+                    <View style={{ paddingHorizontal: 50 }}>
+                      <Text style={{ fontSize: Constants.FONT_SIZE_SMALL }}>
+                        Rates
+                      </Text>
+                    </View>
+
+                    <View style={{ paddingHorizontal: 50 }}>
+                      <Text style={{ fontSize: Constants.FONT_SIZE_SMALL }}>
+                        Amount (kg)
+                      </Text>
+                    </View>
+
+                    <View style={{ paddingHorizontal: 50 }}>
+                      <Text style={{ fontSize: Constants.FONT_SIZE_SMALL }}>
+                        Returns
+                      </Text>
+                    </View>
+                  </View>
+                  
+                </View>
+
+
+{this.state.data.map((item)=>{
+
+  if(item.Name == 'Paper'){
+    return(
+      <View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            paddingHorizontal: 20,
+            paddingVertical: 20
+          }}
+        >
+          <View style={{ paddingHorizontal: 50 }}>
+            <Text style={{ fontSize: Constants.FONT_SIZE_SMALL }}>
+              {item.Name}
+            </Text>
+          </View>
+
+
+          <View style={{ paddingHorizontal: 50 }}>
+            <Text style={{ fontSize: Constants.FONT_SIZE_SMALL }}>
+              {item.Rate}
+            </Text>
+          </View>
+
+          <View style={{ paddingHorizontal: 50 }}>
+            <TextInput
+              style={{ width:50, height: 40, borderColor: 'gray', borderWidth: 1 }}
+              onChangeText={text => this.setState({
+                paper : text,
+                totalPaper: (text*item.Rate).toFixed(2)
+              })}
+              value={this.state.paper}
+              keyboardType={'number-pad'}
+          />
+          </View>
+
+          <View style={{ paddingHorizontal: 50 }}>
+            <Text style={{ fontSize: Constants.FONT_SIZE_SMALL }}>
+              {this.state.totalPaper}
+            </Text>
+          </View>
+
+
+        </View>
+      </View>
+    )
+  }
+  
+  if(item.Name == 'Plastic'){
+    return(
+      <View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            paddingHorizontal: 20,
+            paddingVertical: 20
+          }}
+        >
+          <View style={{ paddingHorizontal: 50 }}>
+            <Text style={{ fontSize: Constants.FONT_SIZE_SMALL }}>
+              {item.Name}
+            </Text>
+          </View>
+
+
+          <View style={{ paddingHorizontal: 50 }}>
+            <Text style={{ fontSize: Constants.FONT_SIZE_SMALL }}>
+              {item.Rate}
+            </Text>
+          </View>
+
+          <View style={{ paddingHorizontal: 50 }}>
+            <TextInput
+              style={{ width:50, height: 40, borderColor: 'gray', borderWidth: 1 }}
+              onChangeText={text => this.setState({
+                plastic : text,
+                totalPlastic: (text*item.Rate).toFixed(2)
+              })}
+              value={this.state.plastic}
+              keyboardType={'number-pad'}
+          />
+          </View>
+
+          <View style={{ paddingHorizontal: 50 }}>
+            <Text style={{ fontSize: Constants.FONT_SIZE_SMALL }}>
+              {this.state.totalPlastic}
+            </Text>
+          </View>
+
+
+        </View>
+      </View>
+    )
+  }
+
+  if(item.Name == 'Aluminium'){
+    return(
+      <View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            paddingHorizontal: 20,
+            paddingVertical: 20
+          }}
+        >
+          <View style={{ paddingHorizontal: 50 }}>
+            <Text style={{ fontSize: Constants.FONT_SIZE_SMALL }}>
+              {item.Name}
+            </Text>
+          </View>
+
+
+          <View style={{ paddingHorizontal: 50 }}>
+            <Text style={{ fontSize: Constants.FONT_SIZE_SMALL }}>
+              {item.Rate}
+            </Text>
+          </View>
+
+          <View style={{ paddingHorizontal: 50 }}>
+            <TextInput
+              style={{ width:50, height: 40, borderColor: 'gray', borderWidth: 1 }}
+              onChangeText={text => this.setState({
+                alum : text,
+                totalAlum: (text*item.Rate).toFixed(2)
+              })}
+              value={this.state.alum}
+              keyboardType={'number-pad'}
+          />
+          </View>
+
+          <View style={{ paddingHorizontal: 50 }}>
+            <Text style={{ fontSize: Constants.FONT_SIZE_SMALL }}>
+              {this.state.totalAlum}
+            </Text>
+          </View>
+
+
+        </View>
+      </View>
+    )
+  }
+
+
+  })}
+
+                
+<Button title="Close" onPress={this.toggleModal} />
               </View>
             </Modal>
             <LocationInfo

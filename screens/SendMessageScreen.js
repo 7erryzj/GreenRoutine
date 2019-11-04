@@ -74,7 +74,7 @@ export default class SendMessageScreen extends Component {
             <View style={{ paddingVertical: 10 }}>
                 <TextInput
                     theme={Themes.InputBoxTheme}
-                    style={{width:300, height:50, padding:10}}
+                    style={{width:300, height:100, padding:10}}
                     label='Title'
                     value={this.state.title}
                     onChangeText={text => this.setState({ title:text })}

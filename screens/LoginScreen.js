@@ -28,7 +28,8 @@ export default class LoginScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          text:'',
+          UserName:'',
+          UserPassword:'',
         };
     }
      componentDidMount() {
@@ -41,21 +42,19 @@ export default class LoginScreen extends Component {
         this.props.navigation.navigate('Register');  
     }
 
-    async test(){
-      const data = {
-        username: "sam",
-        password:"333"
-      }
-      await fetch(Constants.IP_ADDRESS+'/newUser', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data),
-      })
-      .then(response => response.json()) 
-      .then(serverResponse => console.log(serverResponse))
+    async fetch(){ 
+      await fetch(Constants.IP_ADDRESS+'/user/' + this.state.UserName + '/' + this.state.UserPassword)
+      .then(response => response.json())
+      .then((responseJson) => {
+           //alert(responseJson);
+           if(responseJson.length == 0)
+              alert('Login Fail')
+           else
+              alert('Login Success')
+              
+          }).catch((error) => {
+              console.error(error);
+          });
     }
 
     
@@ -84,16 +83,16 @@ export default class LoginScreen extends Component {
                 theme={Themes.InputBoxTheme}
                 style={{width:350, height:50}}
                 label='Username'
-                value={this.state.text}
-                onChangeText={text => this.setState({ text })}
+                value={this.state.UserName}
+                onChangeText={text => this.setState({ UserName:text })}
               />
               <TextInput
                 theme={Themes.InputBoxTheme}
                 style={{width:350, height:50}}
                 label='Password'
-                value={this.state.text}
+                value={this.state.UserPassword}
                 secureTextEntry={true}
-                onChangeText={text => this.setState({ text })}
+                onChangeText={text => this.setState({ UserPassword:text })}
               />
           </View>
           <View style={styles.outer}>

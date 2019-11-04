@@ -5,55 +5,51 @@ import {
 import HeaderComponent from './HeaderComponent';
 import Animation from 'lottie-react-native';
 import anim from '../icons/data.json';
+import { getNews } from "../news";
+import Article from "../Article";
 
 import { ThemeProvider } from 'react-native-elements';
 console.disableYellowBox = true;
-
-const theme = {
-    Button: {
-      raised: true,
-    },
-  };
 
 
 export default class HomeScreen extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            data:[],
-        };
+        this.state = { articles: [], refreshing: true };
+        this.fetchNews = this.fetchNews.bind(this);
       }
-      
-     componentDidMount() {
-         
-        this.animation.play();
-    }
+    
+      componentDidMount() {
+        this.fetchNews();
+      }
+    
+      fetchNews() {
+        getNews()
+          .then(articles => this.setState({ articles, refreshing: false }))
+          .catch(() => this.setState({ refreshing: false }));
+      }
+    
+      handleRefresh() {
+        this.setState(
+          {
+            refreshing: true
+          },
+          () => this.fetchNews()
+        );
+      }
 
     render() {
         return (
-    <ThemeProvider theme={theme}>
-        <ImageBackground 
-        source={require('../icons/bg.jpg')}
-        style={{
-            flex: 1,
-            flexDirection: 'column',
-        }}>      
-            <HeaderComponent {...this.props} />      
-            <View style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
-                <Animation
-                    ref={animation => {
-                    this.animation = animation;
-                    }}
-                    loop={false}
-                    source={anim}
+            <View>
+                <HeaderComponent {...this.props} /> 
+                <FlatList
+                    data={this.state.articles}
+                    renderItem={({ item }) => <Article article={item} />}
+                    keyExtractor={item => item.url}
+                    refreshing={this.state.refreshing}
+                    onRefresh={this.handleRefresh.bind(this)}
                 />
             </View>
-            
-        </ImageBackground>
-    </ThemeProvider>);
+        );
     }
 }

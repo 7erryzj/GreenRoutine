@@ -52,21 +52,21 @@ export default class RegisterScreen extends Component {
             <ImageBackground 
           source={require('../icons/bg.jpg')} style={styles.container}>
           <View style={styles.loginContainer}>
-              <Text style={{fontSize:34}}> Sign up</Text>
+              <Text style={{fontSize:34, fontStyle:'bold'}}> Sign up</Text>
           </View>
           <View style={styles.inner}>
           <TextInput
                 theme={Themes.InputBoxTheme}
                 style={{width:350, height:50}}
                 label='Username'
-                value={this.state.text}
+                value={this.state.UserName}
                 onChangeText={text => this.setState({ UserName:text })}
               />
               <TextInput
                 theme={Themes.InputBoxTheme}
                 style={{width:350, height:50}}
                 label='Password'
-                value={this.state.text}
+                value={this.state.UserPassword}
                 secureTextEntry={true}
                 onChangeText={text => this.setState({ UserPassword:text })}
               />

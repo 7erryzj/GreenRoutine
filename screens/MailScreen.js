@@ -14,16 +14,10 @@ import HeaderComponent from './HeaderComponent';
 import Panel from '../components/CustomPanel'
 import Message from '../models/Message'
 import Constants from '../Constants'
-import { Button } from "react-native-paper";
+import Animation from 'lottie-react-native';
+import anim from '../icons/mail_anim.json';
 
-import { ThemeProvider } from 'react-native-elements';
 console.disableYellowBox = true;
-
-const theme = {
-    Button: {
-      raised: true,
-    },
-  };
 
 
 export default class MailScreen extends Component {
@@ -31,12 +25,27 @@ export default class MailScreen extends Component {
         super(props);
         this.state = {
             data : [],
+            loading: false,
         };
 
     }
+
+    UNSAFE_componentWillMount(){
+      this.setState({
+        loading: true
+      });
       
+    }
+
      componentDidMount() {
-         this.fetch()
+      this.fetch()
+      this.animation.play();
+
+      setTimeout(() => {
+      this.setState({
+        loading: false
+      });
+    }, 3000);
     }
 
     async sendDB(){
@@ -66,7 +75,8 @@ export default class MailScreen extends Component {
     render() {
 
         return (
-        <ScrollView style={styles.container}>
+          <View style={styles.container}>
+        <ScrollView >
             <HeaderComponent {...this.props} />
 
             {this.state.data.map((message)=>{
@@ -79,12 +89,13 @@ export default class MailScreen extends Component {
                 return(
                     <Panel key={id} title={title}>
                         <Text>To: {street_name} Recycling Centre</Text>
-                        <Text style={{paddingBottom: 10}}>{content}</Text>
+                        <View style={styles.lineBreak}></View>
+                        <Text style={{paddingBottom: 10,paddingTop:10}}>{content}</Text>
                         <View style={styles.lineBreak}></View>
 
                         
                         <Text style={{paddingTop: 10,fontWeight: 'bold'}}>
-                            Reply : {}
+                            Reply : {reply}
                         </Text>
                         
                     </Panel>
@@ -92,17 +103,39 @@ export default class MailScreen extends Component {
 
             })}
         </ScrollView>
+        {this.state.loading &&
+          <View style={styles.loading}>         
+            <Animation
+              ref={animation => {
+                this.animation = animation;
+              }}
+              loop={true}
+              source={anim}
+            />
+          </View>}
+        </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex            : 1,
-        backgroundColor : '#f4f7f9',
-      },
-      lineBreak:{
-        borderBottomColor: 'black',
-        borderBottomWidth: 1,
-      }
+container: {
+    flex            : 1,
+    backgroundColor : '#f4f7f9',
+  },
+  lineBreak:{
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+  },
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    opacity: 0.8,
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
 });
