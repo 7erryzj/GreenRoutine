@@ -22,13 +22,23 @@ const connection = mysql.createPool({
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
-// Creating a GET route that returns data from the 'site' table.
-  app.get('/site', function (req, res) {
-      // Connecting to the database.
+  app.get('/site/:plastic/:paper/:alum/:ddl', function (req, res) {
       connection.getConnection(function (err, connection) {
-
-      // Executing the MySQL query (select all data from the 'site' table).
-      connection.query('SELECT site.*, recyclables.* FROM site INNER JOIN recyclables ON site.SiteId = recyclables.SiteId', function (error, results, fields) {
+      var query ="SELECT site.* FROM site ";
+      if(req.params.plastic == 'true'){
+        query += 'INNER JOIN recyclables AS b ON site.SiteId= b.SiteId and b.Name = "Plastic" '
+      }
+      if(req.params.paper == 'true'){
+        query += 'INNER JOIN recyclables AS a ON site.SiteId= a.SiteId and a.Name = "Paper"'
+      }
+      if(req.params.alum == 'true'){
+        query += 'INNER JOIN recyclables AS c ON site.SiteId= c.SiteId and c.Name = "Aluminium" '
+      }
+      if(req.params.ddl != 'Show All'){
+        query += 'WHERE site.StreetName LIKE "'+req.params.ddl+'%"'
+      }
+      connection.query(query, function (error, results, fields) {
+      //connection.query('SELECT site.*, recyclables.* FROM site INNER JOIN recyclables ON site.SiteId = recyclables.SiteId', function (error, results, fields) {
         connection.release();
         if (error) throw error;
 

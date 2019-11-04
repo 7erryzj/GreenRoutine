@@ -42,33 +42,30 @@ function shuffleArray() {
   return array[0];
 }
 
+
 const LocationInfo = props => (
     <Card style={Styles.cardLayout} theme={Themes.CardTheme}>
-      <Card.Title title={props.header} subtitle={props.description} />
       <Card.Cover source={{ uri: shuffleArray() }} />
-      <Card.Content>
+      <Card.Content style={{borderWidth:2, padding:10, borderColor:'gray'}}>
         <Paragraph></Paragraph>
-        <Title> <Ionicons name="md-pin"  size={24}/> {props.locationName}</Title>
-        <Paragraph style={{borderWidth:1, padding:1}}>{props.firstPara}</Paragraph>
-        <Paragraph></Paragraph>
-        <Paragraph>{props.secondPara}</Paragraph>
-        <Paragraph></Paragraph>
+        <Title> <Ionicons name="md-pin"  size={20}/> {props.locationName}</Title>
         <Paragraph>{props.thirdPara}</Paragraph>
+        <Paragraph>{props.firstPara}</Paragraph>
+        <Paragraph></Paragraph>
+        <Paragraph><Ionicons name="md-leaf"  size={20}/> Available Recyclables:</Paragraph>
+        <Paragraph>{props.secondPara}</Paragraph>
+        <Paragraph><Ionicons name="md-call"  size={20}/>{props.phonePara}</Paragraph>
       </Card.Content>
       <View style={Styles.cardButton}>
-        <Card.Actions style={{padding:10}}>
-          <Button style={{padding:10}} mode={"contained"} onPress={() => props.backfunc()}>Send Message</Button>
-          <Button style={{padding:10}} mode={"contained"} onPress={() => props.estimatefunc()}>Get An Estimate</Button>
+        <Card.Actions style={{padding:10, margin:10}}>
+          <Button mode={"contained"} onPress={() => props.backfunc()}>Send Message</Button>
+          <Button mode={"contained"} onPress={() => props.estimatefunc()}>Get An Estimate</Button>
         </Card.Actions>
       </View>
     </Card>
 );
 
 LocationInfo.propTypes = {
-  //Company Name
-  header: propTypes.string,
-  //Description of Company (TBD)
-  description: propTypes.string,
   //Perhaps some relevant photo
   //Name of location
   locationName: propTypes.string,
@@ -78,6 +75,7 @@ LocationInfo.propTypes = {
   secondPara: propTypes.string,
   //Comments etc
   thirdPara: propTypes.string,
+  phonePara: propTypes.string,
   //to go back to map
   backfunc: propTypes.func,
   //to redirect to estimate page

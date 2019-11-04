@@ -78,7 +78,8 @@ export default class MapScreen extends Component {
       error:null, //for user location
       aluminium: false,
       paper:false,
-      plastic:false
+      plastic:false,
+      ddlValue:'Show All'
     };
   }
 
@@ -95,7 +96,7 @@ export default class MapScreen extends Component {
   }
 
   async fetch(){ 
-    await fetch(Constants.IP_ADDRESS+'/site')
+    await fetch(Constants.IP_ADDRESS+'/site/'+this.state.paper+'/'+this.state.plastic+'/'+this.state.aluminium+'/'+this.state.ddlValue)
     .then(response => response.json())
     .then(sites => this.setState({
         dbData : sites,
@@ -130,29 +131,13 @@ export default class MapScreen extends Component {
   }
 
   onChangeText=(value, index, data)=>{
-    this.mapRendering(value);
-  }
-
-  mapRendering=(condition)=>{
-    this.setState({
-      geoData : this.state.dbData
-    })
-
-    if(condition!='Show All'){
-      //var arr1 = this.state.geoData.filter(d => d.StreetName == condition);
-        var arr1 =this.state.geoData.filter(function(item){
-          return item.StreetName.includes(condition);
-        });
-
-        this.setState({
-          geoData : arr1
-        })
-    }
-
-    this.setState({
-      recData : this.state.geoData
-    })
-
+    this.setState(() => {
+      return {
+          ddlValue: value
+      };
+    }, () => {
+      this.fetch();
+  });
   }
 
   toggleAluminium = () =>{
@@ -162,19 +147,8 @@ export default class MapScreen extends Component {
           aluminium: !prevState.aluminium
       };
     }, () => {
-      if(this.state.aluminium == true){
-        var arr1 =this.state.geoData.filter(function(item){
-          return item.Name.includes('Aluminium');
-        });
-        this.setState({
-          geoData : arr1
-        })
-      }
-      else{
-        this.setState({
-          geoData : this.state.recData
-        })
-      }
+
+      this.fetch();
   });
     
     
@@ -187,19 +161,7 @@ export default class MapScreen extends Component {
           paper: !prevState.paper
       };
     }, () => {
-      if(this.state.paper == true){
-        var arr1 =this.state.geoData.filter(function(item){
-          return item.Name.includes('Paper');
-        });
-        this.setState({
-          geoData : arr1
-        })
-      }
-      else{
-        this.setState({
-          geoData : this.state.recData
-        })
-      }
+      this.fetch();
   });
     
     
@@ -211,19 +173,7 @@ export default class MapScreen extends Component {
           plastic: !prevState.plastic
       };
     }, () => {
-      if(this.state.plastic == true){
-        var arr1 =this.state.geoData.filter(function(item){
-          return item.Name.includes('Plastic');
-        });
-        this.setState({
-          geoData : arr1
-        })
-      }
-      else{
-        this.setState({
-          geoData : this.state.recData
-        })
-      }
+      this.fetch();
   });
     
     
@@ -295,6 +245,7 @@ export default class MapScreen extends Component {
                   const postal_code = location.PostalCode;
                   const block_num = location.BlockNum;
                   const building_name = location.BuildingName;
+                  const contact_num = location.ContactNum;
                   
                   return (
                       <Marker
@@ -308,7 +259,9 @@ export default class MapScreen extends Component {
                             STREET_NAME: streetName,
                             DESC: desc,
                             POSTAL_CODE: postal_code,
-                            BLOCK_NUM : block_num
+                            BLOCK_NUM : block_num,
+                            BUILDING_NAME : building_name,
+                            CONTACT_NUM : contact_num
                           });                                           
                     }}
                       >

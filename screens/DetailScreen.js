@@ -49,6 +49,7 @@ export default class DetailScreen extends Component {
         const desc = navigation.getParam('DESC');
         const postal_code = navigation.getParam('POSTAL_CODE');
         const block_num = navigation.getParam('BLOCK_NUM');
+        const contact_num = navigation.getParam('CONTACT_NUM');
         const avail = this.state.data.map(p => p.Name + '\n');
         return (
           <PaperProvider theme={Themes.CardTheme}>
@@ -255,12 +256,11 @@ export default class DetailScreen extends Component {
               </View>
             </Modal>
             <LocationInfo
-                header={"Company Name"}
-                description={""}
-                locationName={streetName}
+                locationName={streetName + block_num}
                 firstPara={desc}
                 secondPara={avail}
-                thirdPara={"S"+postal_code}
+                thirdPara={"S"+postal_code +'\n'}
+                phonePara={contact_num}
                 backfunc={()=>this.props.navigation.navigate('Message', {
                     SITE_ID: sid,
                   })}

@@ -32,14 +32,15 @@ export default class LoginScreen extends Component {
           UserName:'',
           UserPassword:'',
           usernameIsValid: true,
-        	passwordIsValid: true
+          passwordIsValid: true,
+          error:null
         };
     }
      componentDidMount() {
       this.animation.play();
     }
     login =() =>{
-
+      this.fetch();
       this.refs.toast.show('Login Success!', 300, () => {
         this.props.navigation.navigate('DrawerNavigator');  
       });
@@ -51,24 +52,30 @@ export default class LoginScreen extends Component {
 
     checkEmptyFields = (username, password) => {
       this.setState({usernameIsValid: username.length > 0 , passwordIsValid: password.length > 0});
-      if (username.length == 0) alert('Username field is empty!');
+      if (username.length == 0){
+        this.refs.toast.show('Username field is empty!', 300);
+        return false;
+      }
 
-      if (password.length == 0) alert('Password field is empty!');
+      if (password.length == 0){
+        this.refs.toast.show('Password field is empty!', 300);
+        return false;
+      }
 
-      if (username.length > 0 && password.length > 0) return true;
+      if (username.length > 0 && password.length > 0){
+        return true;
+      }
       return false;
   }
 
     async fetch(){ 
-      const {UserName, UserPassword} = this.state;
-      if(!this.checkEmptyFields(UserName, UserPassword)) {
+      if(!this.checkEmptyFields(this.state.UserName, this.state.UserPassword)) {
           return;
       }
 
       await fetch(Constants.IP_ADDRESS+'/user/' + this.state.UserName + '/' + this.state.UserPassword)
       .then(response => response.json())
       .then((responseJson) => {
-           //alert(responseJson);
            if(responseJson.length == 0)
               alert('Login Fail')
            else
@@ -81,12 +88,6 @@ export default class LoginScreen extends Component {
 
     
     render() {
-/*
-      let asd = Promise.resolve(Map.getMap());
-      asd.then(function(v) {
-        console.log('inside',v)
-      });
-*/
         return (
           <ImageBackground 
           source={require('../icons/bg.jpg')} style={styles.container}>

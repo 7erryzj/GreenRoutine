@@ -121,7 +121,7 @@ export default class MailScreen extends Component {
 
             })}
         </ScrollView>
-        <Button title="rf" onPress={()=>this.refreshMethod()}></Button>
+        <Button style={{backgroundColor:'white'}}title="Refresh!" onPress={()=>this.refreshMethod()}></Button>
         {this.state.loading &&
           <View style={styles.loading}>         
             <Animation

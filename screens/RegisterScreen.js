@@ -6,6 +6,7 @@ import { TextInput, Provider as PaperProvider } from "react-native-paper";
 import Constants from '../Constants';
 import CustomButton from "../components/customButton";
 import Font from "../Constants";
+import Toast, {DURATION} from 'react-native-easy-toast'
 
 
 export default class RegisterScreen extends Component {
@@ -26,17 +27,23 @@ export default class RegisterScreen extends Component {
         if(!this.checkValidUser())
            return;
         this.sendDB();
-        //TOAST
+
         this.props.navigation.navigate('Login'); 
     }
 
     validateFields = (username, password) => {
         this.setState({usernameIsValid: username.length >= 8 , passwordIsValid: password.length >= 8});
-        if (username.length < 8) alert('Username must be at least 8 characters long');
+        if (username.length < 8) {
+            this.refs.toast.show('Username must be at least 8 characters long', 300);
+        }
 
-        if (password.length < 8) alert('Password must be at least 8 characters long!');
+        if (password.length < 8) {
+            this.refs.toast.show('Password must be at least 8 characters long', 300);
+        }
 
-        if (username.length >= 8 && password.length >= 8) return true;
+        if (username.length >= 8 && password.length >= 8){
+            return true;
+        }
         return false;
     }
 
@@ -44,13 +51,9 @@ export default class RegisterScreen extends Component {
         await fetch(Constants.IP_ADDRESS + '/user/' + this.state.UserName)
         .then(response => response.json())
         .then((responseJson) => {
-             //alert(responseJson);
-             if(responseJson.length == 0)
-                return true;
-             else {
-                alert('Username has been taken.')
-                return false;
-             }
+             if(responseJson.length != 0)
+             alert('Username has been taken.')
+             return false;
                 
             }).catch((error) => {
                 console.error(error);
@@ -124,6 +127,7 @@ export default class RegisterScreen extends Component {
                 width={150}
             />
           </View>
+          <Toast ref="toast"/>
         </ImageBackground>
         );
     }
