@@ -16,6 +16,7 @@ import CustomButton from "../components/customButton";
 import CustomInput from '../components/inputBox';
 import Font from "../Constants";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Toast, {DURATION} from 'react-native-easy-toast'
 
 
 import { ThemeProvider } from 'react-native-elements';
@@ -41,10 +42,10 @@ export default class SendMessageScreen extends Component {
     }
 
     validate = () =>{
-        //if statement here
         this.sendDB();
-        this.props.navigation.pop();
-
+        this.refs.toast.show('Message sent', 300, () => {
+            this.props.navigation.pop();
+        });
     }
 
     async sendDB(){
@@ -67,8 +68,8 @@ export default class SendMessageScreen extends Component {
       }
     render() {
         return (
-        <View style={{ alignItems: "center", paddingTop: 125}}>
-            <Text>
+        <View style={{ alignItems: "center", paddingTop: 115}}>
+            <Text style={{fontSize:34}}>
                 Send Question
             </Text>
             <View style={{ paddingVertical: 10 }}>
@@ -99,6 +100,7 @@ export default class SendMessageScreen extends Component {
                     method={()=>this.validate()}
                 />
             </View>
+            <Toast ref="toast"/>
         </View>
         );
     }

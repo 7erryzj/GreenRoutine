@@ -29,6 +29,7 @@ const connection = mysql.createPool({
 
       // Executing the MySQL query (select all data from the 'site' table).
       connection.query('SELECT site.*, recyclables.* FROM site INNER JOIN recyclables ON site.SiteId = recyclables.SiteId', function (error, results, fields) {
+        connection.release();
         if (error) throw error;
 
         res.send(results)
@@ -43,6 +44,7 @@ const connection = mysql.createPool({
 
     // Executing the MySQL query (select all data from the 'site' table).
     connection.query('SELECT * FROM recyclables WHERE SiteId = ? ',sid, function (error, results, fields) {
+      connection.release();
       if (error) throw error;
 
       res.send(results)
@@ -56,28 +58,13 @@ app.get('/message/:uid', function (req, res) {
   const uid = req.params.uid
   connection.getConnection(function (err, connection) {
   connection.query('SELECT message.uid, message.sid, message.title, message.content, message.reply, site.StreetName FROM message INNER JOIN site ON message.sid = site.SiteId WHERE uid = ?',uid, function (error, results, fields) {
+    connection.release();
     if (error) throw error;
 
     res.send(results)
   });
 });
 });
-
-/*
-app.post('/deleteMessage', function(req, res, next){
-  var data = {
-    id: req.body.id
-  }
-  connection.getConnection(function(err, connection){
-    connection.query('DELETE FROM message WHERE id = ?', data, function (error, results) {
-      if (error)
-      console.log(error);
-  
-      res.send(results)
-    });
-  })
-});
-*/
 
 //Login
 app.get('/user/:username/:password', function (req, res) {
@@ -87,10 +74,25 @@ app.get('/user/:username/:password', function (req, res) {
   const passWord = req.params.password
   connection.getConnection(function (err, connection) {
   connection.query('SELECT * FROM user WHERE username = ? AND password = ?', [userName, passWord], function (error, results, fields) {
+    connection.release();
     if (error)
     console.log(error);
 
     res.send(results)
+  });
+});
+});
+
+app.get('/user/:username', function (req, res) {
+  const username = req.params.username
+  connection.getConnection(function (err, connection) {
+
+  connection.query('SELECT * FROM users WHERE username = ? ', username, function (error, results, fields) {
+    connection.release();
+    if (error)
+    console.log(error);
+    res.send(results);
+    console.log(results);
   });
 });
 });
@@ -105,6 +107,7 @@ app.post('/newUser', function(req, res, next){
   }
   connection.getConnection(function(err, connection){
     connection.query('INSERT INTO user SET ?', data, function (error, results) {
+      connection.release();
       if (error)
       console.log(error);
   
@@ -123,6 +126,7 @@ app.post('/newMessage', function(req, res, next){
   }
   connection.getConnection(function(err, connection){
     connection.query('INSERT INTO message SET ?', data, function (error, results) {
+      connection.release();
       if (error)
       console.log(error);
   

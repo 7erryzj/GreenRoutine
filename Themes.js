@@ -36,11 +36,11 @@ export default Themes = {
     dark: false,
     roundness: 4,
     colors: {
-      primary: Constants.lightgreen,
-      accent: "white",
-      background: Constants.darkgreen,
-      surface: Constants.darkgreen,
-      text: Constants.beige,
+      primary: Constants.darkgreen,
+      accent: 'white',
+      background: 'white',
+      surface: 'white',
+      text: 'black',
       disabled: Constants.darkgreen,
       placeholder: "rgba(100,50,50,0.5)"
     }

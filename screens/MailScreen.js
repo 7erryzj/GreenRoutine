@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     TouchableHighlight,
     View,
+    Button,
     ScrollView
 } from 'react-native';
 import HeaderComponent from './HeaderComponent';
@@ -16,6 +17,7 @@ import Message from '../models/Message'
 import Constants from '../Constants'
 import Animation from 'lottie-react-native';
 import anim from '../icons/mail_anim.json';
+import Emptyanim from '../icons/empty_inbox.json';
 
 console.disableYellowBox = true;
 
@@ -26,6 +28,7 @@ export default class MailScreen extends Component {
         this.state = {
             data : [],
             loading: false,
+            refresh:false,
         };
 
     }
@@ -40,12 +43,18 @@ export default class MailScreen extends Component {
      componentDidMount() {
       this.fetch()
       this.animation.play();
+      this.animation2.play();
 
       setTimeout(() => {
       this.setState({
         loading: false
       });
     }, 3000);
+    }
+
+    refreshMethod = () =>{
+      this.fetch();
+      //this.animation2.play();
     }
 
     async sendDB(){
@@ -76,9 +85,18 @@ export default class MailScreen extends Component {
 
         return (
           <View style={styles.container}>
+            {!!this.state.data.length==0 &&
+            <View style={styles.empty}>         
+            <Animation
+              ref={animation => {
+                this.animation2 = animation;
+              }}
+              loop={true}
+              source={Emptyanim}
+            />
+          </View>}
         <ScrollView >
             <HeaderComponent {...this.props} />
-
             {this.state.data.map((message)=>{
                 const id = message.id;
                 const title = message.title;
@@ -88,7 +106,7 @@ export default class MailScreen extends Component {
                 const street_name = message.StreetName;
                 return(
                     <Panel key={id} title={title}>
-                        <Text>To: {street_name} Recycling Centre</Text>
+                        <Text style={{paddingBottom: 10,paddingTop:10}}>To: {street_name} Recycling Centre</Text>
                         <View style={styles.lineBreak}></View>
                         <Text style={{paddingBottom: 10,paddingTop:10}}>{content}</Text>
                         <View style={styles.lineBreak}></View>
@@ -103,6 +121,7 @@ export default class MailScreen extends Component {
 
             })}
         </ScrollView>
+        <Button title="rf" onPress={()=>this.refreshMethod()}></Button>
         {this.state.loading &&
           <View style={styles.loading}>         
             <Animation
@@ -135,6 +154,15 @@ container: {
     bottom: 0,
     opacity: 0.8,
     backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  empty: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
     justifyContent: 'center',
     alignItems: 'center'
   },

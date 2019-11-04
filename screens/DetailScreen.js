@@ -41,24 +41,15 @@ export default class DetailScreen extends Component {
     toggleModal = () => {
       this.setState({ isModalVisible: !this.state.isModalVisible });
     };
-
-    renderPaper() {
-      return (
-          <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row' }}>
-              <View style={{ flex: 1, alignSelf: 'stretch' }} />
-              <View style={{ flex: 1, alignSelf: 'stretch' }} />
-              <View style={{ flex: 1, alignSelf: 'stretch' }} />
-              <View style={{ flex: 1, alignSelf: 'stretch' }} />
-              <View style={{ flex: 1, alignSelf: 'stretch' }} />
-          </View>
-      );
-    }
     
     render() {
         const { navigation } = this.props;
         const sid = navigation.getParam('SITE_ID');
         const streetName = navigation.getParam('STREET_NAME');
         const desc = navigation.getParam('DESC');
+        const postal_code = navigation.getParam('POSTAL_CODE');
+        const block_num = navigation.getParam('BLOCK_NUM');
+        const avail = this.state.data.map(p => p.Name + '\n');
         return (
           <PaperProvider theme={Themes.CardTheme}>
             <Modal isVisible={this.state.isModalVisible} onBackdropPress={() => this.setState({ isVisible: false })}>
@@ -268,8 +259,8 @@ export default class DetailScreen extends Component {
                 description={""}
                 locationName={streetName}
                 firstPara={desc}
-                secondPara={"second para"}
-                thirdPara={"third para"}
+                secondPara={avail}
+                thirdPara={"S"+postal_code}
                 backfunc={()=>this.props.navigation.navigate('Message', {
                     SITE_ID: sid,
                   })}

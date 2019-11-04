@@ -292,6 +292,9 @@ export default class MapScreen extends Component {
                   const desc = location.Description;
                   const streetName = location.StreetName;
                   const sid = location.SiteId;
+                  const postal_code = location.PostalCode;
+                  const block_num = location.BlockNum;
+                  const building_name = location.BuildingName;
                   
                   return (
                       <Marker
@@ -304,7 +307,8 @@ export default class MapScreen extends Component {
                             SITE_ID: sid,
                             STREET_NAME: streetName,
                             DESC: desc,
-                            //re : re
+                            POSTAL_CODE: postal_code,
+                            BLOCK_NUM : block_num
                           });                                           
                     }}
                       >

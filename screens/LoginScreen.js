@@ -20,6 +20,7 @@ import Message from '../models/Message';
 import Map from '../models/Map';
 import Animation from 'lottie-react-native';
 import anim from '../icons/data.json';
+import Toast, {DURATION} from 'react-native-easy-toast'
 
 console.disableYellowBox = true;
 
@@ -30,19 +31,40 @@ export default class LoginScreen extends Component {
         this.state = {
           UserName:'',
           UserPassword:'',
+          usernameIsValid: true,
+        	passwordIsValid: true
         };
     }
      componentDidMount() {
       this.animation.play();
     }
     login =() =>{
+
+      this.refs.toast.show('Login Success!', 300, () => {
         this.props.navigation.navigate('DrawerNavigator');  
+      });
+        
     }
     register =() =>{
         this.props.navigation.navigate('Register');  
     }
 
+    checkEmptyFields = (username, password) => {
+      this.setState({usernameIsValid: username.length > 0 , passwordIsValid: password.length > 0});
+      if (username.length == 0) alert('Username field is empty!');
+
+      if (password.length == 0) alert('Password field is empty!');
+
+      if (username.length > 0 && password.length > 0) return true;
+      return false;
+  }
+
     async fetch(){ 
+      const {UserName, UserPassword} = this.state;
+      if(!this.checkEmptyFields(UserName, UserPassword)) {
+          return;
+      }
+
       await fetch(Constants.IP_ADDRESS+'/user/' + this.state.UserName + '/' + this.state.UserPassword)
       .then(response => response.json())
       .then((responseJson) => {
@@ -113,6 +135,7 @@ export default class LoginScreen extends Component {
                 width={150}
             />
           </View>
+          <Toast ref="toast"/>
         </ImageBackground>
         );
     }

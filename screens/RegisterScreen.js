@@ -19,14 +19,49 @@ export default class RegisterScreen extends Component {
     }
     
     signup=()=>{
+
+        if(!this.validateFields(this.state.UserName, this.state.UserPassword))
+            return;
+
+        if(!this.checkValidUser())
+           return;
         this.sendDB();
         //TOAST
         this.props.navigation.navigate('Login'); 
     }
 
+    validateFields = (username, password) => {
+        this.setState({usernameIsValid: username.length >= 8 , passwordIsValid: password.length >= 8});
+        if (username.length < 8) alert('Username must be at least 8 characters long');
+
+        if (password.length < 8) alert('Password must be at least 8 characters long!');
+
+        if (username.length >= 8 && password.length >= 8) return true;
+        return false;
+    }
+
+    async checkValidUser(){ 
+        await fetch(Constants.IP_ADDRESS + '/user/' + this.state.UserName)
+        .then(response => response.json())
+        .then((responseJson) => {
+             //alert(responseJson);
+             if(responseJson.length == 0)
+                return true;
+             else {
+                alert('Username has been taken.')
+                return false;
+             }
+                
+            }).catch((error) => {
+                console.error(error);
+            });
+      }
+
+
 
     async sendDB(){ 
-    
+         
+
         const data = {
             username: this.state.UserName,
             password: this.state.UserPassword
@@ -52,7 +87,7 @@ export default class RegisterScreen extends Component {
             <ImageBackground 
           source={require('../icons/bg.jpg')} style={styles.container}>
           <View style={styles.loginContainer}>
-              <Text style={{fontSize:34, fontStyle:'bold'}}> Sign up</Text>
+              <Text style={{fontSize:34}}> Sign up</Text>
           </View>
           <View style={styles.inner}>
           <TextInput
@@ -73,7 +108,7 @@ export default class RegisterScreen extends Component {
           </View>
           <View style={styles.outer}>
             <CustomButton
-                icon="send"
+                icon="arrow-back"
                 mode="contained"
                 text="Back"
                 fontSize={Font.FONT_SIZE_SMALL}

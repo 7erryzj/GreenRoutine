@@ -6,10 +6,46 @@ import propTypes from "prop-types";
 import Styles from "../Styles";
 import Themes from "../Themes";
 
+const imageArray = [
+  'https://images.unsplash.com/photo-1470075801209-17f9ec0cada6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80',
+  'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+  'https://images.unsplash.com/photo-1481026469463-66327c86e544?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=524&q=80',
+  'https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+  'https://images.unsplash.com/photo-1462396240927-52058a6a84ec?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=966&q=80',
+  'https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=354&q=80',
+  'https://images.unsplash.com/photo-1485628390555-1a7bd503f9fe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+  'https://images.unsplash.com/photo-1554435493-93422e8220c8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=376&q=80',
+  'https://images.unsplash.com/photo-1481253127861-534498168948?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=966&q=80',
+  'https://images.unsplash.com/photo-1554469384-e58fac16e23a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80',
+  'https://images.unsplash.com/photo-1459767129954-1b1c1f9b9ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+  'https://images.unsplash.com/photo-1451153378752-16ef2b36ad05?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1047&q=80',
+  'https://images.unsplash.com/photo-1483366774565-c783b9f70e2c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+  'https://images.unsplash.com/photo-1542361345-89e58247f2d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+  'https://images.unsplash.com/photo-1464655646192-3cb2ace7a67e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+  'https://images.unsplash.com/photo-1489367753387-4a80734cbc3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+  'https://images.unsplash.com/photo-1486175060817-5663aacc6655?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80',
+  'https://images.unsplash.com/photo-1487603097198-fe76cd44579d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+  'https://images.unsplash.com/photo-1486174975375-bd1c9e108596?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+  'https://images.unsplash.com/photo-1484242780561-6aff8688c36a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1166&q=80',
+  'https://images.unsplash.com/photo-1469002372271-3406b43e1f27?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+  'https://images.unsplash.com/photo-1547321627-2479fe834b1e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1047&q=80'];
+
+function shuffleArray() {
+  let array = imageArray;
+  let i = array.length - 1;
+  for (; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array[0];
+}
+
 const LocationInfo = props => (
     <Card style={Styles.cardLayout} theme={Themes.CardTheme}>
       <Card.Title title={props.header} subtitle={props.description} />
-      <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
+      <Card.Cover source={{ uri: shuffleArray() }} />
       <Card.Content>
         <Paragraph></Paragraph>
         <Title> <Ionicons name="md-pin"  size={24}/> {props.locationName}</Title>
@@ -21,8 +57,8 @@ const LocationInfo = props => (
       </Card.Content>
       <View style={Styles.cardButton}>
         <Card.Actions style={{padding:10}}>
-          <Button mode={"contained"} onPress={() => props.backfunc()}>Send Message</Button>
-          <Button mode={"contained"} onPress={() => props.estimatefunc()}>Get An Estimate</Button>
+          <Button style={{padding:10}} mode={"contained"} onPress={() => props.backfunc()}>Send Message</Button>
+          <Button style={{padding:10}} mode={"contained"} onPress={() => props.estimatefunc()}>Get An Estimate</Button>
         </Card.Actions>
       </View>
     </Card>
@@ -34,7 +70,6 @@ LocationInfo.propTypes = {
   //Description of Company (TBD)
   description: propTypes.string,
   //Perhaps some relevant photo
-  picture: propTypes.uri,
   //Name of location
   locationName: propTypes.string,
   //Opening Hours

@@ -87,13 +87,14 @@ var styles = StyleSheet.create({
         backgroundColor: '#fff',
         margin:1,
         overflow:'hidden',
-        borderWidth:1,
+        borderWidth:2,
         borderColor: Constants.lightgreen
 
     },
     titleContainer : {
         flexDirection: 'row',
-        alignItems:"center"
+        alignItems:"center",
+        backgroundColor:Constants.darkgreen
     },
     title       : {
         flex    : 1,
