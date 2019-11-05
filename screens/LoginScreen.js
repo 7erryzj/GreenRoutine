@@ -40,7 +40,7 @@ export default class LoginScreen extends Component {
       this.animation.play();
     }
     login =() =>{
-      this.fetch();
+      //this.fetch();
       this.refs.toast.show('Login Success!', 300, () => {
         this.props.navigation.navigate('DrawerNavigator');  
       });
@@ -66,7 +66,7 @@ export default class LoginScreen extends Component {
         return true;
       }
       return false;
-  }
+    }
 
     async fetch(){ 
       if(!this.checkEmptyFields(this.state.UserName, this.state.UserPassword)) {

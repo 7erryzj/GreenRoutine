@@ -21,13 +21,9 @@ export default class RegisterScreen extends Component {
     
     signup=()=>{
 
-        if(!this.validateFields(this.state.UserName, this.state.UserPassword))
-            return;
-
-        if(!this.checkValidUser())
-           return;
-        this.sendDB();
-
+        //if(!this.validateFields(this.state.UserName, this.state.UserPassword))
+        //this.sendDB();
+        this.refs.toast.show(this.state.msg || this.state.error, 300);
         this.props.navigation.navigate('Login'); 
     }
 
@@ -47,21 +43,6 @@ export default class RegisterScreen extends Component {
         return false;
     }
 
-    async checkValidUser(){ 
-        await fetch(Constants.IP_ADDRESS + '/user/' + this.state.UserName)
-        .then(response => response.json())
-        .then((responseJson) => {
-             if(responseJson.length != 0)
-             alert('Username has been taken.')
-             return false;
-                
-            }).catch((error) => {
-                console.error(error);
-            });
-      }
-
-
-
     async sendDB(){ 
          
 
@@ -79,9 +60,9 @@ export default class RegisterScreen extends Component {
             
             }).then((response) => response.json())
                 .then((responseJson) => {
+                    this.setState({msg:responseJson})
                 }).catch((error) => {
-                        
-                console.error(error);
+                    this.setState({error:error})
                 }); 
       }
 

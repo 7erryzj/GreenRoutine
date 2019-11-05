@@ -93,20 +93,6 @@ app.get('/user/:username/:password', function (req, res) {
 });
 });
 
-app.get('/user/:username', function (req, res) {
-  const username = req.params.username
-  connection.getConnection(function (err, connection) {
-
-  connection.query('SELECT * FROM users WHERE username = ? ', username, function (error, results, fields) {
-    connection.release();
-    if (error)
-    console.log(error);
-    res.send(results);
-    console.log(results);
-  });
-});
-});
-
 //register 
 app.post('/newUser', function(req, res, next){
   // Creating our connection.
