@@ -18,6 +18,8 @@ export default {
 
 
   //IP CONFIG
-  IP_ADDRESS : 'http://192.168.0.101:3000'
+  IP_ADDRESS : 'http://172.22.171.71:3000'
+  //home 'http://192.168.0.101:3000'
+  //sch 'http://172.22.171.71:3000'
 
 };

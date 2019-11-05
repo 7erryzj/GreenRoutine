@@ -17,6 +17,7 @@ import MailScreen from './screens/MailScreen';
 import LoginScreen from './screens/LoginScreen';
 import SendMessageScreen from './screens/SendMessageScreen';
 import RegisterScreen from './screens/RegisterScreen'
+import FaqScreen from './screens/FaqScreen'
 
 
 var {height, width} = Dimensions.get('window');
@@ -61,6 +62,14 @@ const DrawerNavigator = createDrawerNavigator({
         drawerLabel: 'Inbox',
         drawerIcon: () =>  
         <Ionicons name="md-mail" size={26}/>
+      }
+    },
+    Faq: {
+      screen: FaqScreen,
+      navigationOptions: {
+        drawerLabel: 'FAQ',
+        drawerIcon: () =>  
+        <Ionicons name="md-help" size={26}/>
       }
     }
   },

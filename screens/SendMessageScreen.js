@@ -42,10 +42,19 @@ export default class SendMessageScreen extends Component {
     }
 
     validate = () =>{
-        this.sendDB();
-        this.refs.toast.show('Message sent', 300, () => {
-            this.props.navigation.pop();
-        });
+
+        if(this.state.title.length < 10 || this.state.title.length > 23){
+            this.refs.toast.show('Please keep title between 10-23 characters!',300);
+        }
+        else if(this.state.content.length < 10 || this.state.content.length > 255){
+            this.refs.toast.show('Please keep content between 10-255 characters!',300);
+        }
+        else{
+            this.sendDB();
+            this.refs.toast.show('Message sent', 300, () => {
+                this.props.navigation.pop();
+            });
+        }
     }
 
     async sendDB(){
@@ -63,7 +72,7 @@ export default class SendMessageScreen extends Component {
           },
           body: JSON.stringify(data),
         })
-        .then(response => response.json()) 
+        .then(response => console.log(response.json()))
         .then(serverResponse => console.log(serverResponse))
       }
     render() {

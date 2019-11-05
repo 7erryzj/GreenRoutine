@@ -7,7 +7,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default class HeaderComponent extends Component {
-    render() {
+    render() {  
         return (<View style={{
             height: 60,
             flexDirection: 'row',

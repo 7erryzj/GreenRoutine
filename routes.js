@@ -104,9 +104,14 @@ app.post('/newUser', function(req, res, next){
   connection.getConnection(function(err, connection){
     connection.query('INSERT INTO user SET ?', data, function (error, results) {
       connection.release();
-      if (error)
-      console.log(error);
-  
+      if (error){
+        if(error.errno==1062)
+        {
+          console.log("error 1062 dupe");
+          //res.status(400).json({ error: 'message' });
+      }
+    }
+    else
       res.send(results)
     });
   })

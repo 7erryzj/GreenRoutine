@@ -94,7 +94,7 @@ export default class DetailScreen extends Component {
 
                     <View style={{ paddingHorizontal: 50 }}>
                       <Text style={{ fontSize: Constants.FONT_SIZE_SMALL }}>
-                        Returns
+                        Returns ($)
                       </Text>
                     </View>
                   </View>
@@ -124,7 +124,7 @@ export default class DetailScreen extends Component {
 
           <View style={{ paddingHorizontal: 50 }}>
             <Text style={{ fontSize: Constants.FONT_SIZE_SMALL }}>
-              {item.Rate}
+              ${(item.Rate).toFixed(2)}
             </Text>
           </View>
 
@@ -142,7 +142,7 @@ export default class DetailScreen extends Component {
 
           <View style={{ paddingHorizontal: 50 }}>
             <Text style={{ fontSize: Constants.FONT_SIZE_SMALL }}>
-              {this.state.totalPaper}
+              ${this.state.totalPaper}
             </Text>
           </View>
 
@@ -172,7 +172,7 @@ export default class DetailScreen extends Component {
 
           <View style={{ paddingHorizontal: 50 }}>
             <Text style={{ fontSize: Constants.FONT_SIZE_SMALL }}>
-              {item.Rate}
+            ${(item.Rate).toFixed(2)}
             </Text>
           </View>
 
@@ -190,7 +190,7 @@ export default class DetailScreen extends Component {
 
           <View style={{ paddingHorizontal: 50 }}>
             <Text style={{ fontSize: Constants.FONT_SIZE_SMALL }}>
-              {this.state.totalPlastic}
+              ${(this.state.totalPlastic)}
             </Text>
           </View>
 
@@ -220,7 +220,7 @@ export default class DetailScreen extends Component {
 
           <View style={{ paddingHorizontal: 50 }}>
             <Text style={{ fontSize: Constants.FONT_SIZE_SMALL }}>
-              {item.Rate}
+            ${(item.Rate).toFixed(2)}
             </Text>
           </View>
 
@@ -238,7 +238,7 @@ export default class DetailScreen extends Component {
 
           <View style={{ paddingHorizontal: 50 }}>
             <Text style={{ fontSize: Constants.FONT_SIZE_SMALL }}>
-              {this.state.totalAlum}
+              ${this.state.totalAlum}
             </Text>
           </View>
 

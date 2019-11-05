@@ -27,25 +27,23 @@ export default class RegisterScreen extends Component {
         this.props.navigation.navigate('Login'); 
     }
 
-    validateFields = (username, password) => {
-        this.setState({usernameIsValid: username.length >= 8 , passwordIsValid: password.length >= 8});
-        if (username.length < 8) {
-            this.refs.toast.show('Username must be at least 8 characters long', 300);
+    validate = () =>{
+        if(this.state.UserName.length < 8){
+            this.refs.toast.show('Username have to be at least 8 characters!',300);
         }
-
-        if (password.length < 8) {
-            this.refs.toast.show('Password must be at least 8 characters long', 300);
+        else if(this.state.UserPassword.length < 8){
+            this.refs.toast.show('Password have to be at least 8 characters!',300);
         }
-
-        if (username.length >= 8 && password.length >= 8){
-            return true;
+        else{
+            this.sendDB();
+            console.log(this.state.status);
+            this.refs.toast.show('User Registered!', 500, () => {
+                this.props.navigation.pop();
+            });
         }
-        return false;
     }
 
-    async sendDB(){ 
-         
-
+    async sendDB(){
         const data = {
             username: this.state.UserName,
             password: this.state.UserPassword
@@ -58,13 +56,10 @@ export default class RegisterScreen extends Component {
             },
             body: JSON.stringify(data),
             
-            }).then((response) => response.json())
-                .then((responseJson) => {
-                    this.setState({msg:responseJson})
-                }).catch((error) => {
-                    this.setState({error:error})
-                }); 
-      }
+            })
+            .then(response => this.setState({status:response.status})) 
+            .then(serverResponse => console.log(serverResponse))
+          }
 
     render() {
         return(
@@ -104,7 +99,7 @@ export default class RegisterScreen extends Component {
                 mode="contained"
                 text="Submit"
                 fontSize={Font.FONT_SIZE_SMALL}
-                method={()=>this.signup()}
+                method={()=>this.validate()}
                 width={150}
             />
           </View>

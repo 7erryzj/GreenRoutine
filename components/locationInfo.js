@@ -58,8 +58,14 @@ const LocationInfo = props => (
       </Card.Content>
       <View style={Styles.cardButton}>
         <Card.Actions style={{padding:10, margin:10}}>
+          <View style={{  flexDirection:'row' }}>
+          <View style={{paddingHorizontal: 10}}>
           <Button mode={"contained"} onPress={() => props.backfunc()}>Send Message</Button>
+          </View>
+          <View style={{paddingHorizontal: 10}}>
           <Button mode={"contained"} onPress={() => props.estimatefunc()}>Get An Estimate</Button>
+          </View>
+          </View>
         </Card.Actions>
       </View>
     </Card>
