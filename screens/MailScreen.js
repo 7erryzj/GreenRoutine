@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 import HeaderComponent from './HeaderComponent';
 import Panel from '../components/CustomPanel'
-import Message from '../models/Message'
 import Constants from '../Constants'
 import Animation from 'lottie-react-native';
 import anim from '../icons/mail_anim.json';

@@ -16,8 +16,6 @@ import Constants from '../Constants';
 import CustomButton from "../components/customButton";
 import Font from "../Constants";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Message from '../models/Message';
-import Map from '../models/Map';
 import Animation from 'lottie-react-native';
 import anim from '../icons/data.json';
 import Toast, {DURATION} from 'react-native-easy-toast'

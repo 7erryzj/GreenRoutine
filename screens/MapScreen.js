@@ -11,7 +11,6 @@ import BottomUpPanel from '../components/PopupDrawer'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { CheckBox } from 'react-native-elements';
 import Constants from '../Constants'
-import Map from '../models/Map'
 
 console.disableYellowBox = true;
 const {height, width} = Dimensions.get('window');
