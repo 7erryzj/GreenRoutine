@@ -10,7 +10,7 @@
   "dependencies": {
     "@react-native-community/geolocation": "^2.0.2",
     "body-parser": "^1.19.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "lottie-react-native": "^3.2.1",
     "moment": "^2.24.0",
     "mysql": "^2.17.1",
